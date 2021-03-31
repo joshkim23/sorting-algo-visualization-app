@@ -3,6 +3,15 @@ import React, {useState, useEffect} from 'react';
 // Custom Components
 import Header from './components/Header.js';
 import DataSortingWindow from './components/DataSortingWindow.js';
+import AlgoDescriptionContainer from './components/AlgoDescriptionContainer.js';
+
+// Algorithms
+import {bubbleSort} from './Algorithms/bubbleSort.js';
+import {selectionSort} from './Algorithms/selectionSort.js';
+import {insertionSort} from './Algorithms/insertionSort.js';
+import {quickSort} from './Algorithms/quickSort.js';
+import {mergeSort} from './Algorithms/mergeSort.js';
+import {heapSort} from './Algorithms/heapSort.js';
 
 // Material ui
 import indigo from '@material-ui/core/colors/indigo';
@@ -13,13 +22,15 @@ import grey from '@material-ui/core/colors/grey';
 import {generateRandomUniqueUnorderedList} from './helperFunctions.ts'; // still works!
 
 const ALGORITHMS = [
-    'Bubble Sort',
-    'Selection Sort',
-    'Insertion Sort',
-    'Quick Sort',
-    'Merge Sort',
-    'Heap Sort'
+    bubbleSort,
+    selectionSort,
+    insertionSort,
+    quickSort,
+    mergeSort,
+    heapSort
 ]
+
+const ALGONAMES = ALGORITHMS.map(algo => algo.name);
 
 const DATASIZES = ['5', '10', '25', '50', '100'];
 
@@ -63,13 +74,21 @@ const App = () => {
         }
     }
 
-    const [algorithm, setAlgorithm] = useState('');
+    const [algorithm, setAlgorithm] = useState({
+        name: '',
+        description: '',
+        performance: {
+            best: '',
+            average: '',
+            worst: ''
+        },
+        algorithm: ''
+    })
     const [dataSize, setDataSize] = useState('10');
     const [data, setData] = useState(null);
     const [barWidth, setBarWidth] = useState('');
 
     useEffect(() => {
-        setAlgorithm('');
         setDataSize('10');
         setData(generateRandomUniqueUnorderedList(10));
     }, []);
@@ -79,7 +98,8 @@ const App = () => {
     }, [dataSize])
     
     function handleAlgorithmSelection(index) {
-        setAlgorithm(ALGORITHMS[index]);
+        console.log(index);
+;        setAlgorithm(ALGORITHMS[index]);
     }
 
     function handleListSizeSelection(index) {
@@ -114,15 +134,18 @@ const App = () => {
 
     return (
         <div style={styles.overlay}>
-            <Header 
-                algorithm={algorithm} 
-                listOfAlgorithms={ALGORITHMS} 
-                algorithmSelected={handleAlgorithmSelection}
-                dataSize={dataSize}
-                listOfDataSizes={DATASIZES}
-                dataSizeSelected={handleListSizeSelection}
-                shuffleData={shuffleDataRequest}
-            />
+            <div>
+                <Header 
+                    algorithm={algorithm.name} 
+                    listOfAlgorithms={ALGONAMES} 
+                    algorithmSelected={handleAlgorithmSelection}
+                    dataSize={dataSize}
+                    listOfDataSizes={DATASIZES}
+                    dataSizeSelected={handleListSizeSelection}
+                    shuffleData={shuffleDataRequest}
+                />
+            </div>
+
             <div style={styles.layout}>
                 <div style={styles.sortWindowAndControls}>
                     <div>
@@ -132,7 +155,11 @@ const App = () => {
                     <div>Controls</div>
                 </div>
                 
-                <div style={styles.descriptionWindow}>Algorithm Information</div>
+                <AlgoDescriptionContainer
+                    algoName={algorithm.name}
+                    algoDescription={algorithm.description}
+                    performance={algorithm.performance.average}
+                />
             </div>
         </div>
     )

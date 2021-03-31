@@ -11,15 +11,15 @@ import grey from '@material-ui/core/colors/grey';
 import indigo from '@material-ui/core/colors/indigo';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 0,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
+//   root: {
+//     flexGrow: 0,
+//   },
+//   menuButton: {
+//     marginRight: theme.spacing(2),
+//   },
+//   title: {
+//     flexGrow: 1,
+//   },
   horizontalStretch: {
     display: 'grid',
     backgroundColor: `${grey["900"]}`,
@@ -62,8 +62,8 @@ const Header  = ({algorithm, listOfAlgorithms, algorithmSelected, dataSize, list
     }
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
+        <div className={classes.root} style={{height: '64px'}}>
+            <AppBar position="fixed">
                 <Toolbar className={classes.horizontalStretch}>
 
                     <div>
@@ -154,7 +154,7 @@ const Header  = ({algorithm, listOfAlgorithms, algorithmSelected, dataSize, list
                     </Button>
                 </Toolbar>
             </AppBar>
-        </div>
+         </div>
     )
 }
 
