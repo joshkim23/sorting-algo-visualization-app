@@ -6,6 +6,9 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
+import indigo from '@material-ui/core/colors/indigo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,12 +22,13 @@ const useStyles = makeStyles((theme) => ({
   },
   horizontalStretch: {
     display: 'grid',
+    backgroundColor: `${grey["900"]}`,
     gridTemplateColumns: '1fr auto auto auto',
-
+    // color: `${indigo["200"]}`,
   }
 }));
 
-const Header  = ({algorithm, listOfAlgorithms, algorithmSelected, dataSize, listOfDataSizes, dataSizeSelected}) => {
+const Header  = ({algorithm, listOfAlgorithms, algorithmSelected, dataSize, listOfDataSizes, dataSizeSelected, shuffleData}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [dataSizeAnchorEl, setDataSizeAnchorEl] = useState(null);
@@ -83,6 +87,7 @@ const Header  = ({algorithm, listOfAlgorithms, algorithmSelected, dataSize, list
                         </Button>
                         <Menu
                             id="simple-menu"
+                            style={{margin: '0', padding:'0'}}
                             anchorEl={anchorEl}
                             getContentAnchorEl={null}
                             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -93,7 +98,14 @@ const Header  = ({algorithm, listOfAlgorithms, algorithmSelected, dataSize, list
                         >
                             {listOfAlgorithms.map((name, index) => {
                                 return (
-                                    <MenuItem key={index} onClick={() =>handleAlgorithmSelection(index)}>{name}</MenuItem>
+                                    <MenuItem 
+                                        onMouseEnter={(e) => e.target.style.backgroundColor = `${green["600"]}`}
+                                        onMouseLeave={(e) => e.target.style.backgroundColor = '#ffffff'}
+                                        key={index} 
+                                        onClick={() =>handleAlgorithmSelection(index)}
+                                    >
+                                        {name}
+                                    </MenuItem>
                                 )
                             })}
                         </Menu>
@@ -124,13 +136,20 @@ const Header  = ({algorithm, listOfAlgorithms, algorithmSelected, dataSize, list
                         >
                             {listOfDataSizes.map((size, index) => {
                                 return (
-                                    <MenuItem key={index} onClick={() =>handleDataSizeSelection(index)}>{size}</MenuItem>
+                                    <MenuItem 
+                                        onMouseEnter={(e) => e.target.style.backgroundColor = `${green["600"]}`}
+                                        onMouseLeave={(e) => e.target.style.backgroundColor = '#ffffff'}    
+                                        key={index} 
+                                        onClick={() =>handleDataSizeSelection(index)}
+                                    >
+                                        {size}
+                                    </MenuItem>
                                 )
                             })}
                         </Menu>
                     </div>
 
-                    <Button color="inherit" variant="outlined" style={{textTransform: 'none'}} >
+                    <Button color="inherit" variant="outlined" style={{textTransform: 'none'}} onClick={() => shuffleData()}>
                         Shuffle Data
                     </Button>
                 </Toolbar>

@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import Header from './Header/Header.js';
+import Header from './components/Header.js';
 import indigo from '@material-ui/core/colors/indigo';
-import { Grid } from '@material-ui/core';
+import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
+import {generateRandomUniqueUnorderedList} from './helperFunctions.ts'; // still works!
 
 const ALGORITHMS = [
     'Bubble Sort',
@@ -18,8 +20,8 @@ const SPEEDS = ['0.25x', '0.5x', '1.0x', '1.5x', '2.0x'];
 
 const App = () => {
     const styles = {
-        overlay: { // need this to make the div FULL screen!!
-            backgroundColor: `${indigo["50"]}`,
+        overlay: { // need this AND <style> in index.html to make the div FULL screen!!
+            backgroundColor: `${grey["900"]}`,
             position: 'fixed',
             width: '100%',
             height: '100%',
@@ -35,24 +37,28 @@ const App = () => {
             display: 'grid',
             borderRadius: '10px',
             padding: '15px',
-            backgroundColor: '#fff',
+            backgroundColor: `${grey["800"]}`,
+            color: `${green["600"]}`,
             height: '500px',
         },
         descriptionWindow: {
             display: 'grid',
             borderRadius: '10px',
             padding: '15px',
-            backgroundColor: '#fff',
+            backgroundColor: `${grey["800"]}`,
+            color: `${green["600"]}`,
             height: '500px',
         }
     }
 
     const [algorithm, setAlgorithm] = useState('');
     const [dataSize, setDataSize] = useState('10');
+    const [data, setData] = useState(null);
 
     useEffect(() => {
         setAlgorithm('');
         setDataSize('10');
+        setData(generateRandomUniqueUnorderedList(10));
     }, [])
     
     function handleAlgorithmSelection(index) {
@@ -61,7 +67,10 @@ const App = () => {
 
     function handleListSizeSelection(index) {
         setDataSize(DATASIZES[index]);
+        setData(generateRandomUniqueUnorderedList(parseInt(DATASIZES[index])));
     }
+
+    const shuffleDataRequest = () => generateRandomUniqueUnorderedList(parseInt(dataSize));
 
     return (
         <div style={styles.overlay}>
@@ -72,6 +81,7 @@ const App = () => {
                 dataSize={dataSize}
                 listOfDataSizes={DATASIZES}
                 dataSizeSelected={handleListSizeSelection}
+                shuffleData={shuffleDataRequest}
             />
             <div style={styles.layout}>
                 <div style={styles.sortWindowAndControls}>
