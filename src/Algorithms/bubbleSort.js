@@ -43,7 +43,8 @@ export const bubbleSortInfo = {
         best: 'O(n)',
         average: 'O(n^2)',
         worst: 'O(n^2)'
-    }
+    },
+    index: 0
 }
 
  

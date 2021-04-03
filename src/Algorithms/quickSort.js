@@ -5,5 +5,6 @@ export const quickSortInfo = {
         best: 'O(nlog n)',
         average: 'O(nlog n)',
         worst: 'O(n^2)'
-    }
+    },
+    index: 3
 }

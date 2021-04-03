@@ -19,6 +19,7 @@ export function generateRandomUniqueUnorderedList(size:number):Array<number> {
             list.push(newValue);
         }
     }
+    console.log('NEW randomized list generated: ', list);
     return list;
 }
 

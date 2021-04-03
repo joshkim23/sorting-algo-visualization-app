@@ -5,5 +5,6 @@ export const selectionSortInfo = {
         best: 'O(n^2)',
         average: 'O(n^2)',
         worst: 'O(n^2)'
-    }
+    },
+    index: 1
 }

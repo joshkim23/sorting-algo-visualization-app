@@ -89,7 +89,8 @@ const App = () => {
             best: '',
             average: '',
             worst: ''
-        }
+        },
+        index: null
     })
     const [dataSize, setDataSize] = useState('10');
     const [data, setData] = useState(null);
@@ -117,18 +118,8 @@ const App = () => {
     }, [dataSize])
 
     
-    // Need a way to implement the algorithm here, import it. 
-    // If you wanna make it general... need to have standardized values across all algorithms in each step like indexes you're comparing, step, the list after each iteration, etc.
-    // Keep track of the process, store it in a call stack? so you can go backwards if desired. For now just make it go at one speed without being able to go backwards
-    // Need to send the data, and the indexes of the elements that are being compared. So within the for loop, you need to update the props passed down to the chart so it renders the bars with the color and new data 
-
-    // probably want to run like 25ms for 100elements. 
+    // functions for managing the sorting process
     function run() {
-        // for(trackerIndex; trackerIndex < tracker.steps.length; trackerIndex + 1) {
-        //     setTimeout(() => {
-        //         setSortingData(tracker.steps[trackerIndex]);
-        //     }, 100);
-        // }
         tracker.steps.forEach(step => {
             setTimeout(() => {
                 setSortingData(step);
@@ -157,29 +148,45 @@ const App = () => {
         setAlgorithmInfo(ALGOINFO[index]);
         // setData(generateRandomUniqueUnorderedList(parseInt(dataSize))); // make new state for completed - only do on completed
         if (ALGOINFO[index].name === 'Bubble Sort') {
-            console.log('list before sorting: ', data);
-            const tracker = ALGORITHMS[0]([...data]); // RUN THE ALGORITHM, store all the steps in the variable tracker. 
-            setTracker(tracker);
-            console.log(tracker);
-
-            setSortedData(tracker.steps[tracker.steps.length-1].array);
-            // setSortingData(tracker.steps[trackerIndex + 1]);
-            setSortingData(tracker.steps[0]);
+            getSpecificAlgorithmTracker(index);
         }
     }
 
+    // The steps for an algorithm are stored in a tracker object which has an array of steps that are iterated to display the algorithm visually
+    function getSpecificAlgorithmTracker(index) {
+        let tracker;
+        if (algorithmInfo.index === null) { // first time selecting an algorithm 
+            tracker = ALGORITHMS[index]([...data]); 
+        } else { // selecting a new algorithm
+            tracker = ALGORITHMS[algorithmInfo.index]([...data]); 
+        }
+        
+        setTracker(tracker);
+        console.log('NEW tracker generated: ',tracker);
+
+        setSortedData(tracker.steps[tracker.steps.length-1].array);
+        // setSortingData(tracker.steps[trackerIndex + 1]);
+        setSortingData(tracker.steps[0]);
+    }
+
     function handleListSizeSelection(index) {
+        console.log('Data size changed - data size: ', DATASIZES[index]);
+        setSortingData(null); // sorting data is only sent to child once the algorithm runs and we have the tracker
+
         setDataSize(DATASIZES[index]);
         setBarWidth(getBarWidth(DATASIZES[index]));
         setData(generateRandomUniqueUnorderedList(parseInt(DATASIZES[index])));
-        setSortingData(null);
+        if (algorithmInfo.index !== null) {
+            getSpecificAlgorithmTracker(algorithmInfo.index);
+        }
     }
 
     function shuffleDataRequest() {
+        console.log('SHUFFLED - algorithm info: ', algorithmInfo);
         setSortingData(null);
         setData(generateRandomUniqueUnorderedList(parseInt(dataSize)));
-        if (algorithmInfo) {
-            // TODO - right now when you select an algorithm, thats the only time it calculates the tracker. If you select the algo then shuffle OR change the elements # it will sort the old array. 
+        if (algorithmInfo.index !== null) {
+            getSpecificAlgorithmTracker(algorithmInfo.index);
         }
     }
 

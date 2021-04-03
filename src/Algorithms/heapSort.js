@@ -5,5 +5,6 @@ export const heapSortInfo = {
         best: 'O(nlog n)',
         average: 'O(nlog n)',
         worst: 'O(nlog n)'
-    }
+    },
+    index: 5
 }

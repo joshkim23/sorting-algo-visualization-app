@@ -1,15 +1,11 @@
 import React from 'react';
 import './DataBar.css';
-import green from '@material-ui/core/colors/green';
 import Box from '@material-ui/core/Box';
 import lightBlue from '@material-ui/core/colors/lightBlue';
 
-// dynamically add a new css class to give bar diff color when it's either being compared, unsorted, or sorted
-// green: sorted, white: unsorted, yellow: being sorted/compared
 const DataBar = ({value, width, dataSize, color}) => {
     const styles = {
         container: {
-            // backgroundColor: `${green["600"]}`,
             backgroundColor: `${color? color : lightBlue["600"]}`,
             height: `${getHeight()}`,
             width: `${width}`,
@@ -30,9 +26,7 @@ const DataBar = ({value, width, dataSize, color}) => {
         }
     }
     return (
-        <Box className="data-bar" style={styles.container}>
-            
-        </Box>
+        <Box className="data-bar" style={styles.container} />
     )
 }
 

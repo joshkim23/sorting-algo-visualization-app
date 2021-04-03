@@ -1,6 +1,5 @@
 import React from 'react';
 import DataBar from './DataBar/DataBar.js';
-import lihtBlue from '@material-ui/core/colors/lightBlue';
 import green from '@material-ui/core/colors/green';
 
 // In order to display the array as a list of bars of varying heights we need to make the css dynamic
@@ -12,7 +11,6 @@ import green from '@material-ui/core/colors/green';
 // You could just bite the bullet and use .map, and send an updated array everytime so this component will be recalculating the bars constantly as the algorithm runs. With large data it could be sus
 // How to pass information to the window that elements have been sorted vs. are being comapred vs. are unsorted?
 const DataSortingWindow = ({data, comparing, sorted, swapped, barWidth}) => {
-    console.log(sorted);
     const styles = {
         graph: {
             display: 'flex',
@@ -22,6 +20,7 @@ const DataSortingWindow = ({data, comparing, sorted, swapped, barWidth}) => {
         }
     }
 
+    // checking the comparing, sorted, and swapped arrays from the dataSortingList - if the index value is present in any of these, return the corresponding color key
     function getBarColor(index) {
         if (comparing && comparing.includes(index)) {
             return 'yellow';

@@ -14,13 +14,13 @@ const SortingStepControls = ({ handleNextButton, handlePrevButton, sortButton })
     }
     return (
         <div style={styles.layout}>
-            <Button style={{color: 'red'}} fontSizeLarge>
+            <Button style={{color: 'red'}}>
                 <Stop />
             </Button>
 
             <div>
-                <Button >
-                    <SkipPrevious fontSize={'48px'} style={{color: 'white'}} onClick={() => handlePrevButton()}/>
+                <Button>
+                    <SkipPrevious style={{color: 'white'}} onClick={() => handlePrevButton()}/>
                 </Button>
 
                 <Button style={{color: 'white'}} onClick = {() => sortButton()}>
