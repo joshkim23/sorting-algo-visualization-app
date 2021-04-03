@@ -27,7 +27,7 @@ export function createNewTracker(list:Array<number>):Tracker {
     let tracker:Tracker = {
         steps: [{
             array: list,
-            sortedIndex: [],
+            sortedIndices: [],
             comparing: [],
             swapped: []
         }]
@@ -36,10 +36,11 @@ export function createNewTracker(list:Array<number>):Tracker {
     return tracker;
 }
 
-export function addStepToTracker(tracker:Tracker, listInstant:Array<number>, comparing:Array<number>, sorted:Array<number>, swapped:Array<number>) {
+export function addStepToTracker(tracker:Tracker, listInstant:Array<number>, comparing:Array<number>, sorted:Array<number>, swapped:Array<number>, step:string) {
+    // console.log(step);
     const newStep:TrackerStep = {
         array: listInstant,
-        sortedIndex: sorted,
+        sortedIndices: sorted,
         comparing: comparing,
         swapped: swapped
     }

@@ -1,27 +1,31 @@
 import { swap, createNewTracker, addStepToTracker } from '../helperFunctions.ts';
 
 export const BubbleSort = (list) => {
-    let tracker = createNewTracker(list);
-    console.log('tracker: ', tracker);
+    const initialList = [...list]; // need to make deep copy of the list before it sorts so that the first step doesn't point to the list object that will CHANGE after the algorithm, then the first step will show the sorted algorithm.
+    let tracker = createNewTracker(initialList);
     let sortedIndices = [];
 
     for(let lastKnownSortedElementIndex = list.length-1; lastKnownSortedElementIndex>1; lastKnownSortedElementIndex--) { // outer loop, need to run swapping algorithm up to last known sorted element -1; with this algorithm the elements are sorted right to left
-        if (lastKnownSortedElementIndex < list.length-1) addStepToTracker(tracker, list, [], sortedIndices.push(lastKnownSortedElementIndex))
-        // console.log('tracker: ', tracker);
+        let deepCopy1 = [...list];
+        if(lastKnownSortedElementIndex< list.length-1) {
+            sortedIndices.push(lastKnownSortedElementIndex+1);
+            addStepToTracker(tracker, deepCopy1, [], [...sortedIndices], [], 'last known sorted el is less than the end');
+        }
+        
 
         for (let i=0; i<lastKnownSortedElementIndex; i++) { // inner loop running the swap algorithm from the first index to the last known sorted element -1;
-            addStepToTracker(tracker, list, [i, i+1], [], [])
-            if(list[i] > list[i+1]) {
-                swap(list, i, i+1);
-                const deepCopyOfListAtInstant = JSON.parse(JSON.stringify(list));
-                console.log(deepCopyOfListAtInstant);
+            addStepToTracker(tracker, [...list], [i, i+1], [...sortedIndices], [], 'new iteration of i'); // comparing values at index i and i+1
 
-                addStepToTracker(tracker, deepCopyOfListAtInstant, [], [], [i, i+1]);
+            if(list[i] > list[i+1]) { // if left value is greater than right value, SWAP them. If i
+                swap(list, i, i+1);
+                const deepCopyOfListAtInstant = [...list];
+
+                addStepToTracker(tracker, deepCopyOfListAtInstant, [], [...sortedIndices], [i, i+1], 'AFTEr swapping');
             }
         }
     }
-    // console.log('sorted list! ', list);
-    return list;
+    console.log('sorted list! ', list);
+    return tracker;
 
 }
 

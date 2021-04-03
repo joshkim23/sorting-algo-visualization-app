@@ -1,6 +1,6 @@
 export interface TrackerStep {
     array: Array<number>
-    sortedIndex: Array<number>
+    sortedIndices: Array<number>
     comparing: Array<number>
     swapped: Array<number>
 }
