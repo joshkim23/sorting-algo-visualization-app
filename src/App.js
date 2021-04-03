@@ -124,11 +124,23 @@ const App = () => {
 
     // probably want to run like 25ms for 100elements. 
     function run() {
+        // for(trackerIndex; trackerIndex < tracker.steps.length; trackerIndex + 1) {
+        //     setTimeout(() => {
+        //         setSortingData(tracker.steps[trackerIndex]);
+        //     }, 100);
+        // }
         tracker.steps.forEach(step => {
             setTimeout(() => {
                 setSortingData(step);
             }, 100);
         });
+    }
+
+    function handlePreviousStep() {
+        if (sortingData !== data) {
+            setTrackerIndex(trackerIndex - 1);
+            setSortingData(tracker.steps[trackerIndex - 1]);
+        }
     }
 
     function handleNextStep() {
@@ -190,17 +202,15 @@ const App = () => {
 
     return (
         <div style={styles.overlay}>
-            {/* <div> */}
-                <Header 
-                    algorithm={algorithmInfo.name} 
-                    listOfAlgorithms={ALGONAMES} 
-                    algorithmSelected={handleAlgorithmSelection}
-                    dataSize={dataSize}
-                    listOfDataSizes={DATASIZES}
-                    dataSizeSelected={handleListSizeSelection}
-                    shuffleData={shuffleDataRequest}
-                />
-            {/* </div> */}
+            <Header 
+                algorithm={algorithmInfo.name} 
+                listOfAlgorithms={ALGONAMES} 
+                algorithmSelected={handleAlgorithmSelection}
+                dataSize={dataSize}
+                listOfDataSizes={DATASIZES}
+                dataSizeSelected={handleListSizeSelection}
+                shuffleData={shuffleDataRequest}
+            />
 
             <div style={styles.layout}>
                 <div style={styles.sortWindowAndControls}>
@@ -213,6 +223,7 @@ const App = () => {
 
                     <SortingStepControls 
                         handleNextButton={handleNextStep}
+                        handlePrevButton={handlePreviousStep}
                         sortButton={run}/>
                 </div>
                 

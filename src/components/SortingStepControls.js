@@ -4,7 +4,7 @@ import SkipPrevious from '@material-ui/icons/SkipPrevious'
 import SkipNext from '@material-ui/icons/SkipNext';
 import Stop from '@material-ui/icons/Stop'
 
-const SortingStepControls = ({ handleNextButton, sortButton }) => {
+const SortingStepControls = ({ handleNextButton, handlePrevButton, sortButton }) => {
     const styles = {
         layout: {
             display: 'grid',
@@ -20,7 +20,7 @@ const SortingStepControls = ({ handleNextButton, sortButton }) => {
 
             <div>
                 <Button >
-                    <SkipPrevious fontSize={'48px'} style={{color: 'white'}} />
+                    <SkipPrevious fontSize={'48px'} style={{color: 'white'}} onClick={() => handlePrevButton()}/>
                 </Button>
 
                 <Button style={{color: 'white'}} onClick = {() => sortButton()}>
