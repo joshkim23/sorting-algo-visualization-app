@@ -10,7 +10,7 @@ import SortingStepControls from './components/SortingStepControls.js';
 // import {Tracker} from './IterationTrackerInterface.ts';
 
 // Algorithms
-import {bubbleSortInfo, BubbleSort} from './Algorithms/bubbleSort.js';
+import {bubbleSortInfo, BubbleSort} from './Algorithms/bubbleSort.ts';
 import {selectionSortInfo} from './Algorithms/selectionSort.js';
 import {insertionSortInfo} from './Algorithms/insertionSort.js';
 import {quickSortInfo} from './Algorithms/quickSort.js';

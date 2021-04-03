@@ -1,9 +1,10 @@
-import { swap, createNewTracker, addStepToTracker } from '../helperFunctions.ts';
+import { swap, createNewTracker, addStepToTracker } from '../helperFunctions';
+import { Tracker } from '../IterationTrackerInterface';
 
-export const BubbleSort = (list) => {
-    const initialList = [...list]; // need to make deep copy of the list before it sorts or else every step of the tracker will have the same array - the final sorted array, because they're all pointing to the same object! 
-    let tracker = createNewTracker(initialList);
-    let sortedIndices = [];
+export const BubbleSort = (list: Array<number>):Tracker => {
+    const initialList:Array<number> = [...list]; // need to make deep copy of the list before it sorts or else every step of the tracker will have the same array - the final sorted array, because they're all pointing to the same object! 
+    let tracker:Tracker = createNewTracker(initialList);
+    let sortedIndices:Array<number> = [];
 
     for(let lastKnownSortedElementIndex = list.length-1; lastKnownSortedElementIndex>1; lastKnownSortedElementIndex--) { // outer loop, need to run swapping algorithm up to last known sorted element -1; with this algorithm the elements are sorted right to left
         let deepCopy1 = [...list];
@@ -30,7 +31,7 @@ export const BubbleSort = (list) => {
         sortedIndices.push(list.length-sortedIndices.length - 1);
     }
 
-    addStepToTracker(tracker, list, [], sortedIndices, []);
+    addStepToTracker(tracker, list, [], sortedIndices, [], 'FINISHED SORTING');
     console.log('sorted list! ', list);
     return tracker;
 
