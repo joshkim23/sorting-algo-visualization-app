@@ -4,9 +4,11 @@ import React, {useState, useEffect} from 'react';
 import Header from './components/Header.js';
 import DataSortingWindow from './components/DataSortingWindow.js';
 import AlgoDescriptionContainer from './components/AlgoDescriptionContainer.js';
+import SortingStepControls from './components/SortingStepControls.js';
 
 // Interface
 // import {Tracker} from './IterationTrackerInterface.ts';
+
 // Algorithms
 import {bubbleSortInfo, BubbleSort} from './Algorithms/bubbleSort.js';
 import {selectionSortInfo} from './Algorithms/selectionSort.js';
@@ -72,6 +74,7 @@ const App = () => {
         },
         descriptionWindow: {
             display: 'grid',
+            overflowY: 'scroll',
             borderRadius: '10px',
             padding: '15px',
             backgroundColor: `${grey["800"]}`,
@@ -91,6 +94,12 @@ const App = () => {
     const [dataSize, setDataSize] = useState('10');
     const [data, setData] = useState(null);
     const [barWidth, setBarWidth] = useState('');
+    const [tracker, setTracker] = useState({
+        steps: []
+    })
+    const [trackerIndex, setTrackerIndex] = useState(0);
+    const [sortingData, setSortingData] = useState(null);
+    const [sortedData, setSortedData] = useState(null);
 
     useEffect(() => {
         setDataSize('10');
@@ -107,32 +116,52 @@ const App = () => {
     // Keep track of the process, store it in a call stack? so you can go backwards if desired. For now just make it go at one speed without being able to go backwards
     // Need to send the data, and the indexes of the elements that are being compared. So within the for loop, you need to update the props passed down to the chart so it renders the bars with the color and new data 
 
-    if (algorithmInfo.name === 'Bubble Sort') {
-        console.log('list before sorting: ', data);
-        console.log(ALGORITHMS[0](data));
+    // probably want to run like 25ms for 100elements. 
+    function run() {
+        tracker.steps.forEach(step => {
+            setTimeout(() => {
+                setSortingData(step.array);
+            }, 10);
+        })
     }
 
+    function handleNextStep() {
+        if (sortingData !== sortedData) {
+            setTrackerIndex(trackerIndex + 1);
+            setSortingData(tracker.steps[trackerIndex + 1].array);
+        }
+    }
     
     function handleAlgorithmSelection(index) {
         console.log(index);
-;       setAlgorithmInfo(ALGOINFO[index]);
+        setAlgorithmInfo(ALGOINFO[index]);
         // setData(generateRandomUniqueUnorderedList(parseInt(dataSize))); // make new state for completed - only do on completed
+        if (ALGOINFO[index].name === 'Bubble Sort') {
+            console.log('list before sorting: ', data);
+            const tracker = ALGORITHMS[0]([...data]);
+            console.log(tracker);
+            setTracker(tracker);
+            setSortedData(tracker.steps[tracker.steps.length-1].array);
+            setSortingData(tracker.steps[0].array);
+        }
     }
 
     function handleListSizeSelection(index) {
         setDataSize(DATASIZES[index]);
         setBarWidth(getBarWidth(DATASIZES[index]));
         setData(generateRandomUniqueUnorderedList(parseInt(DATASIZES[index])));
+        setSortingData(null);
     }
 
     function shuffleDataRequest() {
+        setSortingData(null);
         setData(generateRandomUniqueUnorderedList(parseInt(dataSize)));
+        if (algorithmInfo) {
+            // TODO - right now when you select an algorithm, thats the only time it calculates the tracker. If you select the algo then shuffle OR change the elements # it will sort the old array. 
+        }
     }
 
-    // component lifecycle issue to update the width at the same time the data size is selected
-    // getting div to be fixed, only fill the fixed div up to a percentage
     function getBarWidth() {
-        console.log(dataSize);
         switch(parseInt(dataSize)) {
             case 5:
                 return '20%';
@@ -165,9 +194,11 @@ const App = () => {
 
             <div style={styles.layout}>
                 <div style={styles.sortWindowAndControls}>
-                    <DataSortingWindow data={data} barWidth={barWidth}/>
+                    <DataSortingWindow data={sortingData? sortingData : data} barWidth={barWidth}/>
 
-                    <div>Controls</div>
+                    <SortingStepControls 
+                        handleNextButton={handleNextStep}
+                        sortButton={run}/>
                 </div>
                 
                 <AlgoDescriptionContainer

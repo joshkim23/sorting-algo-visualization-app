@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
     root: {
       minWidth: 250,
+      overflowY: 'scroll'
     },
     title: {
       fontSize: 16,

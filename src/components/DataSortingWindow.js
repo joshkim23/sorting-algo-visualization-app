@@ -11,6 +11,7 @@ import DataBar from './DataBar/DataBar.js';
 // How to pass information to the window that elements have been sorted vs. are being comapred vs. are unsorted?
 const DataSortingWindow = ({data, barWidth}) => {
     console.log('BAR WIDTH: ', barWidth);
+    console.log('data', data);
     const styles = {
         graph: {
             display: 'flex',
