@@ -1,6 +1,5 @@
-import { CenterFocusStrong } from '@material-ui/icons';
 import React from 'react';
-import DataBar from './DataBar.js';
+import DataBar from './DataBar/DataBar.js';
 
 // In order to display the array as a list of bars of varying heights we need to make the css dynamic
 // The width of the window is constant so we need to set the widths of each bar depending on data size
@@ -15,17 +14,18 @@ const DataSortingWindow = ({data, barWidth}) => {
     const styles = {
         graph: {
             display: 'flex',
-            gridGap: '8px',
-            justifySelf: 'center'
+            flexDirection: 'row',
+            width: '100%',
+            gridGap: '4px'
         }
     }
 
     
     return (
         <div style={styles.graph}>
-            {data? data.map(value => {
+            {data? data.map((value, index) => {
                 return (
-                    <DataBar value={value} width={barWidth} dataSize={data.length}/>
+                    <DataBar key={index} value={value} width={barWidth} dataSize={data.length}/>
                 )
             }) : null}
         </div>

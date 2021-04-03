@@ -9,24 +9,24 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     root: {
-      minWidth: 275,
+      minWidth: 250,
     },
     title: {
       fontSize: 16,
     },
     pos: {
-      marginBottom: 12,
+    //   marginBottom: 12,
     },
   });
 
 const AlgoDescriptionContainer = ({algoName, algoDescription, performance}) => {
-    const styles = {
-        container: {
-            display: 'grid',
-            // gridGap: '3px',
-            font: 'Roboto'
-        }
-    }
+    // const styles = {
+    //     container: {
+    //         display: 'grid',
+    //         // gridGap: '3px',
+    //         font: 'Roboto'
+    //     }
+    // }
     const classes = useStyles();
 
     return (

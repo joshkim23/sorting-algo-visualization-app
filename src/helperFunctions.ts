@@ -1,3 +1,4 @@
+import {Tracker, TrackerStep} from './IterationTrackerInterface';
 // swaps values in an array at the two indexes
 export function swap(list:Array<number>, i1:number, i2:number):void {
     const temp:number = list[i1];
@@ -20,4 +21,28 @@ export function generateRandomUniqueUnorderedList(size:number):Array<number> {
     }
     console.log('generated new unordered list: ', list);
     return list;
+}
+
+export function createNewTracker(list:Array<number>):Tracker {
+    let tracker:Tracker = {
+        steps: [{
+            array: list,
+            sortedIndices: [],
+            comparing: [],
+            swapped: []
+        }]
+    };
+    
+    return tracker;
+}
+
+export function addStepToTracker(tracker:Tracker, listInstant:Array<number>, comparing:Array<number>, sorted:Array<number>, swapped:Array<number>, step:string) {
+    // console.log(step);
+    const newStep:TrackerStep = {
+        array: listInstant,
+        sortedIndices: sorted,
+        comparing: comparing,
+        swapped: swapped
+    }
+    tracker.steps.push(newStep);
 }
