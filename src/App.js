@@ -117,79 +117,6 @@ const App = () => {
         setBarWidth(getBarWidth(dataSize));
     }, [dataSize])
 
-    
-    // functions for managing the sorting process
-    function run() {
-        tracker.steps.forEach(step => {
-            setTimeout(() => {
-                setSortingData(step);
-            }, 100);
-        });
-    }
-
-    function handlePreviousStep() {
-        if (sortingData !== data) {
-            setTrackerIndex(trackerIndex - 1);
-            setSortingData(tracker.steps[trackerIndex - 1]);
-        }
-    }
-
-    function handleNextStep() {
-        if (sortingData !== sortedData) {
-            setTrackerIndex(trackerIndex + 1);
-            // setSortingData(tracker.steps[trackerIndex + 1].array);
-            setSortingData(tracker.steps[trackerIndex + 1]);
-
-        }
-    }
-    
-    function handleAlgorithmSelection(index) {
-        console.log(index);
-        setAlgorithmInfo(ALGOINFO[index]);
-        // setData(generateRandomUniqueUnorderedList(parseInt(dataSize))); // make new state for completed - only do on completed
-        if (ALGOINFO[index].name === 'Bubble Sort') {
-            getSpecificAlgorithmTracker(index);
-        }
-    }
-
-    // The steps for an algorithm are stored in a tracker object which has an array of steps that are iterated to display the algorithm visually
-    function getSpecificAlgorithmTracker(index) {
-        let tracker;
-        if (algorithmInfo.index === null) { // first time selecting an algorithm 
-            tracker = ALGORITHMS[index]([...data]); 
-        } else { // selecting a new algorithm
-            tracker = ALGORITHMS[algorithmInfo.index]([...data]); 
-        }
-        
-        setTracker(tracker);
-        console.log('NEW tracker generated: ',tracker);
-
-        setSortedData(tracker.steps[tracker.steps.length-1].array);
-        // setSortingData(tracker.steps[trackerIndex + 1]);
-        setSortingData(tracker.steps[0]);
-    }
-
-    function handleListSizeSelection(index) {
-        console.log('Data size changed - data size: ', DATASIZES[index]);
-        setSortingData(null); // sorting data is only sent to child once the algorithm runs and we have the tracker
-
-        setDataSize(DATASIZES[index]);
-        setBarWidth(getBarWidth(DATASIZES[index]));
-        setData(generateRandomUniqueUnorderedList(parseInt(DATASIZES[index])));
-        if (algorithmInfo.index !== null) {
-            getSpecificAlgorithmTracker(algorithmInfo.index);
-        }
-    }
-
-    function shuffleDataRequest() {
-        console.log('SHUFFLED - algorithm info: ', algorithmInfo);
-        setSortingData(null);
-        setData(generateRandomUniqueUnorderedList(parseInt(dataSize)));
-        if (algorithmInfo.index !== null) {
-            getSpecificAlgorithmTracker(algorithmInfo.index);
-        }
-    }
-
     function getBarWidth() {
         switch(parseInt(dataSize)) {
             case 5:
@@ -206,6 +133,83 @@ const App = () => {
                 return '5%';
         }
     }
+    
+    /* functions for managing the tracker */
+    function run() {
+        tracker.steps.forEach(step => {
+            setTimeout(() => {
+                setSortingData(step);
+            }, 100);
+        });
+    }
+
+
+    function handlePreviousStep() {
+        if (sortingData !== data) {
+            setTrackerIndex(trackerIndex - 1);
+            setSortingData(tracker.steps[trackerIndex - 1]);
+        }
+    }
+
+    function handleNextStep() {
+        if (sortingData !== sortedData) {
+            setTrackerIndex(trackerIndex + 1);
+            setSortingData(tracker.steps[trackerIndex + 1]);
+        }
+    }
+    
+    /* functions for algorithm selection, element size, shuffling */
+    function handleAlgorithmSelection(index) {
+        console.log(index);
+        setAlgorithmInfo(ALGOINFO[index]);
+        // setData(generateRandomUniqueUnorderedList(parseInt(dataSize))); // make new state for completed - only do on completed
+        if (ALGOINFO[index].name === 'Bubble Sort' && !algorithmInfo.index) {
+            getSpecificAlgorithmTracker(index, sortingData? sortingData.array : data); // for some reason, without this it will send the sorted list - so when you click the same alogirthm twice it solves it automatically. needs investigation but this fixes it
+        }
+    }
+
+    function handleListSizeSelection(index) {
+        console.log('Data size changed - data size: ', DATASIZES[index]);
+        setSortingData(null); // sorting data is only sent to child once the algorithm runs and we have the tracker
+
+        setDataSize(DATASIZES[index]);
+        setBarWidth(getBarWidth(DATASIZES[index]));
+        const newList = generateRandomUniqueUnorderedList(parseInt(DATASIZES[index]));
+        
+        setData(newList);
+        if (algorithmInfo.index !== null) {
+            getSpecificAlgorithmTracker(algorithmInfo.index, newList);
+        }
+    }
+
+    function shuffleDataRequest() {
+        setSortingData(null);
+        const newList = generateRandomUniqueUnorderedList(parseInt(dataSize));
+        setData(newList);
+        if (algorithmInfo.index !== null) {
+            getSpecificAlgorithmTracker(algorithmInfo.index, newList);
+        }
+    }
+
+    // The steps for an algorithm are stored in a tracker object which has an array of steps that are iterated to display the algorithm visually
+    // need to pass the new unique array to this function to get a tracker of the updated list since JS is asynchornous - it doesnt grab the setData() value from the functions before it so it calculates the tracker for the list before the size was changd/shuffle button was clicked
+    function getSpecificAlgorithmTracker(index, duplicateListBecauseJsIsAsynchronous) {
+        console.log('list sent to the get tracker function: ', duplicateListBecauseJsIsAsynchronous);
+        let tracker;
+        
+        if (algorithmInfo.index === null) { // first time selecting an algorithm 
+            tracker = ALGORITHMS[index](duplicateListBecauseJsIsAsynchronous); 
+        } else { // selecting a new algorithm
+            tracker = ALGORITHMS[algorithmInfo.index](duplicateListBecauseJsIsAsynchronous); 
+        }
+
+        setTracker(tracker);
+        console.log('NEW tracker generated: ',tracker);
+
+        setSortedData(tracker.steps[tracker.steps.length-1].array);
+        setSortingData(tracker.steps[0]);
+    }
+
 
     return (
         <div style={styles.overlay}>
@@ -226,12 +230,14 @@ const App = () => {
                         comparing={sortingData? sortingData.comparing : null}
                         swapped={sortingData? sortingData.swapped : null}
                         sorted={sortingData? sortingData.sortedIndices : null}
-                        barWidth={barWidth}/>
+                        barWidth={barWidth}
+                    />
 
                     <SortingStepControls 
                         handleNextButton={handleNextStep}
                         handlePrevButton={handlePreviousStep}
-                        sortButton={run}/>
+                        sortButton={run}
+                    />
                 </div>
                 
                 <AlgoDescriptionContainer

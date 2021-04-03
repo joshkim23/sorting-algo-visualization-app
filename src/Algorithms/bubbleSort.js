@@ -1,7 +1,7 @@
 import { swap, createNewTracker, addStepToTracker } from '../helperFunctions.ts';
 
 export const BubbleSort = (list) => {
-    const initialList = [...list]; // need to make deep copy of the list before it sorts so that the first step doesn't point to the list object that will CHANGE after the algorithm, then the first step will show the sorted algorithm.
+    const initialList = [...list]; // need to make deep copy of the list before it sorts or else every step of the tracker will have the same array - the final sorted array, because they're all pointing to the same object! 
     let tracker = createNewTracker(initialList);
     let sortedIndices = [];
 
