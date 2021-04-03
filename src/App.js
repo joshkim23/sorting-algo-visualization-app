@@ -5,36 +5,42 @@ import Header from './components/Header.js';
 import DataSortingWindow from './components/DataSortingWindow.js';
 import AlgoDescriptionContainer from './components/AlgoDescriptionContainer.js';
 
+// Interface
+// import {Tracker} from './IterationTrackerInterface.ts';
 // Algorithms
-import {bubbleSort} from './Algorithms/bubbleSort.js';
-import {selectionSort} from './Algorithms/selectionSort.js';
-import {insertionSort} from './Algorithms/insertionSort.js';
-import {quickSort} from './Algorithms/quickSort.js';
-import {mergeSort} from './Algorithms/mergeSort.js';
-import {heapSort} from './Algorithms/heapSort.js';
+import {bubbleSortInfo, BubbleSort} from './Algorithms/bubbleSort.js';
+import {selectionSortInfo} from './Algorithms/selectionSort.js';
+import {insertionSortInfo} from './Algorithms/insertionSort.js';
+import {quickSortInfo} from './Algorithms/quickSort.js';
+import {mergeSortInfo} from './Algorithms/mergeSort.js';
+import {heapSortInfo} from './Algorithms/heapSort.js';
 
 // Material ui
-import indigo from '@material-ui/core/colors/indigo';
+// import indigo from '@material-ui/core/colors/indigo';
 import green from '@material-ui/core/colors/green';
 import grey from '@material-ui/core/colors/grey';
 
 // Utility
 import {generateRandomUniqueUnorderedList} from './helperFunctions.ts'; // still works!
 
-const ALGORITHMS = [
-    bubbleSort,
-    selectionSort,
-    insertionSort,
-    quickSort,
-    mergeSort,
-    heapSort
+const ALGOINFO = [
+    bubbleSortInfo,
+    selectionSortInfo,
+    insertionSortInfo,
+    quickSortInfo,
+    mergeSortInfo,
+    heapSortInfo
 ]
 
-const ALGONAMES = ALGORITHMS.map(algo => algo.name);
+const ALGORITHMS = [
+    BubbleSort
+]
+
+const ALGONAMES = ALGOINFO.map(algo => algo.name);
 
 const DATASIZES = ['5', '10', '25', '50', '100'];
 
-const SPEEDS = ['0.25x', '0.5x', '1.0x', '1.5x', '2.0x'];
+// const SPEEDS = ['0.25x', '0.5x', '1.0x', '1.5x', '2.0x'];
 
 // Controls the program, grabs the algorithm and data size that are selected, runs/stops the algorithm, sends data points to child component, renders relevant data 
 const App = () => {
@@ -52,6 +58,7 @@ const App = () => {
             display: 'grid',
             gridTemplateColumns: '5fr 2fr',
             gridGap: '60px',
+            height: '500px',
             padding: '50px 30px 50px 30px',
         },
         sortWindowAndControls: {
@@ -62,7 +69,6 @@ const App = () => {
             padding: '15px',
             backgroundColor: `${grey["800"]}`,
             color: `${green["600"]}`,
-            height: '500px',
         },
         descriptionWindow: {
             display: 'grid',
@@ -70,19 +76,17 @@ const App = () => {
             padding: '15px',
             backgroundColor: `${grey["800"]}`,
             color: `${green["600"]}`,
-            height: '500px',
         }
     }
 
-    const [algorithm, setAlgorithm] = useState({
+    const [algorithmInfo, setAlgorithmInfo] = useState({
         name: '',
         description: '',
         performance: {
             best: '',
             average: '',
             worst: ''
-        },
-        algorithm: ''
+        }
     })
     const [dataSize, setDataSize] = useState('10');
     const [data, setData] = useState(null);
@@ -96,10 +100,23 @@ const App = () => {
     useEffect(() => {
         setBarWidth(getBarWidth(dataSize));
     }, [dataSize])
+
+    
+    // Need a way to implement the algorithm here, import it. 
+    // If you wanna make it general... need to have standardized values across all algorithms in each step like indexes you're comparing, step, the list after each iteration, etc.
+    // Keep track of the process, store it in a call stack? so you can go backwards if desired. For now just make it go at one speed without being able to go backwards
+    // Need to send the data, and the indexes of the elements that are being compared. So within the for loop, you need to update the props passed down to the chart so it renders the bars with the color and new data 
+
+    if (algorithmInfo.name === 'Bubble Sort') {
+        console.log('list before sorting: ', data);
+        console.log(ALGORITHMS[0](data));
+    }
+
     
     function handleAlgorithmSelection(index) {
         console.log(index);
-;        setAlgorithm(ALGORITHMS[index]);
+;       setAlgorithmInfo(ALGOINFO[index]);
+        // setData(generateRandomUniqueUnorderedList(parseInt(dataSize))); // make new state for completed - only do on completed
     }
 
     function handleListSizeSelection(index) {
@@ -118,15 +135,15 @@ const App = () => {
         console.log(dataSize);
         switch(parseInt(dataSize)) {
             case 5:
-                return '18%';
+                return '20%';
             case 10:
-                return '9%';
+                return '10%';
             case 25:
-                return '1/30%';
+                return '4%';
             case 50: 
-                return '0.01%';
+                return '2%';
             case 100:
-                return '.01%';
+                return '1%';
             default: 
                 return '5%';
         }
@@ -134,9 +151,9 @@ const App = () => {
 
     return (
         <div style={styles.overlay}>
-            <div>
+            {/* <div> */}
                 <Header 
-                    algorithm={algorithm.name} 
+                    algorithm={algorithmInfo.name} 
                     listOfAlgorithms={ALGONAMES} 
                     algorithmSelected={handleAlgorithmSelection}
                     dataSize={dataSize}
@@ -144,21 +161,19 @@ const App = () => {
                     dataSizeSelected={handleListSizeSelection}
                     shuffleData={shuffleDataRequest}
                 />
-            </div>
+            {/* </div> */}
 
             <div style={styles.layout}>
                 <div style={styles.sortWindowAndControls}>
-                    <div>
-                        <DataSortingWindow data={data} barWidth={barWidth}/>
-                    </div>
+                    <DataSortingWindow data={data} barWidth={barWidth}/>
 
                     <div>Controls</div>
                 </div>
                 
                 <AlgoDescriptionContainer
-                    algoName={algorithm.name}
-                    algoDescription={algorithm.description}
-                    performance={algorithm.performance.average}
+                    algoName={algorithmInfo.name}
+                    algoDescription={algorithmInfo.description}
+                    performance={algorithmInfo.performance.average}
                 />
             </div>
         </div>
