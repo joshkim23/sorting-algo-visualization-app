@@ -98,12 +98,18 @@ const App = () => {
         steps: []
     })
     const [trackerIndex, setTrackerIndex] = useState(0);
-    const [sortingData, setSortingData] = useState(null);
-    const [sortedData, setSortedData] = useState(null);
+    const [sortingData, setSortingData] = useState({
+        array: [],
+        comparing: [],
+        sortedIndices: [],
+        swapped: []
+    }); // the data that's initially a deep copy of data then iterates through tracker.steps - this is what's sent to the data sorting window
+    const [sortedData, setSortedData] = useState(null); // sorted array stored as soon as sorting algo is selected ahead of time to check
 
     useEffect(() => {
         setDataSize('10');
         setData(generateRandomUniqueUnorderedList(10));
+        setSortingData(null);
     }, []);
 
     useEffect(() => {
@@ -120,15 +126,17 @@ const App = () => {
     function run() {
         tracker.steps.forEach(step => {
             setTimeout(() => {
-                setSortingData(step.array);
-            }, 10);
-        })
+                setSortingData(step);
+            }, 100);
+        });
     }
 
     function handleNextStep() {
         if (sortingData !== sortedData) {
             setTrackerIndex(trackerIndex + 1);
-            setSortingData(tracker.steps[trackerIndex + 1].array);
+            // setSortingData(tracker.steps[trackerIndex + 1].array);
+            setSortingData(tracker.steps[trackerIndex + 1]);
+
         }
     }
     
@@ -138,11 +146,13 @@ const App = () => {
         // setData(generateRandomUniqueUnorderedList(parseInt(dataSize))); // make new state for completed - only do on completed
         if (ALGOINFO[index].name === 'Bubble Sort') {
             console.log('list before sorting: ', data);
-            const tracker = ALGORITHMS[0]([...data]);
-            console.log(tracker);
+            const tracker = ALGORITHMS[0]([...data]); // RUN THE ALGORITHM, store all the steps in the variable tracker. 
             setTracker(tracker);
+            console.log(tracker);
+
             setSortedData(tracker.steps[tracker.steps.length-1].array);
-            setSortingData(tracker.steps[0].array);
+            // setSortingData(tracker.steps[trackerIndex + 1]);
+            setSortingData(tracker.steps[0]);
         }
     }
 
@@ -194,7 +204,12 @@ const App = () => {
 
             <div style={styles.layout}>
                 <div style={styles.sortWindowAndControls}>
-                    <DataSortingWindow data={sortingData? sortingData : data} barWidth={barWidth}/>
+                    <DataSortingWindow 
+                        data={sortingData? sortingData.array : data} 
+                        comparing={sortingData? sortingData.comparing : null}
+                        swapped={sortingData? sortingData.swapped : null}
+                        sorted={sortingData? sortingData.sortedIndices : null}
+                        barWidth={barWidth}/>
 
                     <SortingStepControls 
                         handleNextButton={handleNextStep}

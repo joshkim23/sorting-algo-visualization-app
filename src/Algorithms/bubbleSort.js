@@ -24,6 +24,13 @@ export const BubbleSort = (list) => {
             }
         }
     }
+
+    // Need to add the final step with the same array to updated the sorted values for colors. Without this, it colors the last comparison yellow
+    while (list.length !== sortedIndices.length) {
+        sortedIndices.push(list.length-sortedIndices.length - 1);
+    }
+
+    addStepToTracker(tracker, list, [], sortedIndices, []);
     console.log('sorted list! ', list);
     return tracker;
 
