@@ -98,7 +98,7 @@ const App = () => {
     const [tracker, setTracker] = useState({
         steps: []
     })
-    const [trackerIndex, setTrackerIndex] = useState(0);
+    let [trackerIndex, setTrackerIndex] = useState(0);
     const [sortingData, setSortingData] = useState({
         array: [],
         comparing: [],
@@ -136,11 +136,18 @@ const App = () => {
     
     /* functions for managing the tracker */
     function run() {
-        tracker.steps.forEach(step => {
+        const trackerStepSnippetFromIndex = tracker.steps.filter((step, index) => index >= trackerIndex )
+
+        console.log(trackerIndex);
+        console.log(trackerStepSnippetFromIndex);
+
+        trackerStepSnippetFromIndex.forEach((step, index) => {
             setTimeout(() => {
                 setSortingData(step);
-            }, 100);
+            }, 250 * index);
         });
+        
+        // setTrackerIndex(0);
     }
 
 
@@ -175,6 +182,7 @@ const App = () => {
         setDataSize(DATASIZES[index]);
         setBarWidth(getBarWidth(DATASIZES[index]));
         const newList = generateRandomUniqueUnorderedList(parseInt(DATASIZES[index]));
+        setTrackerIndex(0);
         
         setData(newList);
         if (algorithmInfo.index !== null) {
@@ -184,6 +192,7 @@ const App = () => {
 
     function shuffleDataRequest() {
         setSortingData(null);
+        setTrackerIndex(0);
         const newList = generateRandomUniqueUnorderedList(parseInt(dataSize));
         setData(newList);
         if (algorithmInfo.index !== null) {

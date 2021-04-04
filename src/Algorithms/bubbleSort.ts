@@ -6,7 +6,7 @@ export const BubbleSort = (list: Array<number>):Tracker => {
     let tracker:Tracker = createNewTracker(initialList);
     let sortedIndices:Array<number> = [];
 
-    for(let lastKnownSortedElementIndex = list.length-1; lastKnownSortedElementIndex>1; lastKnownSortedElementIndex--) { // outer loop, need to run swapping algorithm up to last known sorted element -1; with this algorithm the elements are sorted right to left
+    for(let lastKnownSortedElementIndex = list.length-1; lastKnownSortedElementIndex>=1; lastKnownSortedElementIndex--) { // outer loop, need to run swapping algorithm up to last known sorted element -1; with this algorithm the elements are sorted right to left
         let deepCopy1 = [...list];
         if(lastKnownSortedElementIndex< list.length-1) {
             sortedIndices.push(lastKnownSortedElementIndex+1);
