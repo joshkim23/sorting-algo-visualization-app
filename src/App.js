@@ -21,10 +21,12 @@ import {heapSortInfo} from './Algorithms/heapSort.js';
 // import indigo from '@material-ui/core/colors/indigo';
 import green from '@material-ui/core/colors/green';
 import grey from '@material-ui/core/colors/grey';
+import lightBlue from '@material-ui/core/colors/lightBlue';
 
 // Utility
 import {generateRandomUniqueUnorderedList} from './helperFunctions.ts'; // still works!
 
+// Application CONSTANTS
 const ALGOINFO = [
     bubbleSortInfo,
     selectionSortInfo,
@@ -41,10 +43,24 @@ const ALGORITHMS = [
 ]
 
 const ALGONAMES = ALGOINFO.map(algo => algo.name);
-
 const DATASIZES = ['5', '10', '25', '50', '100'];
+const SPEEDS = ['0.25', '0.5', '1.0', '1.5', '2.0'];
 
-// const SPEEDS = ['0.25x', '0.5x', '1.0x', '1.5x', '2.0x'];
+const COLORKEYS = [{
+        key: 'Unsorted', 
+        color: `${lightBlue["600"]}`
+    }, {
+        key: 'Comparing',
+        color: 'yellow'
+    }, {
+        key: 'Swapped',
+        color: 'red'
+    }, {
+        key: 'Sorted',
+        color: `${green["600"]}`
+    }
+];
+
 
 // Controls the program, grabs the algorithm and data size that are selected, runs/stops the algorithm, sends data points to child component, renders relevant data 
 const App = () => {
@@ -61,13 +77,14 @@ const App = () => {
         layout: {
             display: 'grid',
             gridTemplateColumns: '5fr 2fr',
-            gridGap: '60px',
+            gridGap: '50px',
             height: '500px',
-            padding: '50px 30px 50px 30px',
+            padding: '0px 50px 50px 50px',
         },
         sortWindowAndControls: {
             display: 'grid',
             gridTemplateRows: '10fr 1fr',
+            maxHeight: '525px',
             width: '100%',
             borderRadius: '10px',
             padding: '15px',
@@ -108,6 +125,7 @@ const App = () => {
         swapped: []
     }); // the data that's initially a deep copy of data then iterates through tracker.steps - this is what's sent to the data sorting window
     const [sortedData, setSortedData] = useState(null); // sorted array stored as soon as sorting algo is selected ahead of time to check
+    const [sortSpeed, setSortSpeed] = useState(SPEEDS[2]);
 
     useEffect(() => {
         setDataSize('10');
@@ -146,10 +164,18 @@ const App = () => {
         trackerStepSnippetFromIndex.forEach((step, index) => {
             setTimeout(() => {
                 setSortingData(step);
-            }, 250 * index);
+                setTrackerIndex(trackerIndex++);
+                if (index === trackerStepSnippetFromIndex.length-1) {
+                    setTrackerIndex(trackerIndex++);
+                }
+            }, (150 * (1/sortSpeed)) * index);
         });
         
-        // setTrackerIndex(0);
+        setTrackerIndex(tracker.steps.length);
+    }
+
+    function speedSelected(index) {
+        setSortSpeed(SPEEDS[index]);
     }
 
 
@@ -203,12 +229,11 @@ const App = () => {
     // The steps for an algorithm are stored in a tracker object which has an array of steps that are iterated to display the algorithm visually
     // need to pass the new unique array to this function to get a tracker of the updated list since JS is asynchornous - it doesnt grab the setData() value from the functions before it so it calculates the tracker for the list before the size was changd/shuffle button was clicked
     function getSpecificAlgorithmTracker(index, duplicateListBecauseJsIsAsynchronous) {
-        console.log('list sent to the get tracker function: ', duplicateListBecauseJsIsAsynchronous);
         let tracker;
         
-        if (algorithmInfo.index === null) { // first time selecting an algorithm 
+        if (algorithmInfo.index === null || index !== algorithmInfo.index) { // either first time selecting an algorithm or selecting a new one
             tracker = ALGORITHMS[index](duplicateListBecauseJsIsAsynchronous); 
-        } else { // selecting a new algorithm
+        } else { // in the case that the same algorithhm is selected
             tracker = ALGORITHMS[algorithmInfo.index](duplicateListBecauseJsIsAsynchronous); 
         }
 
@@ -246,13 +271,21 @@ const App = () => {
                         handleNextButton={handleNextStep}
                         handlePrevButton={handlePreviousStep}
                         sortButton={run}
+                        colorKeys={COLORKEYS}
+                        trackerSize={tracker.steps.length}
+                        trackerStep={trackerIndex}
+                        speed={sortSpeed}
+                        listOfSpeeds={SPEEDS}
+                        handleSpeedSelected={speedSelected}
                     />
                 </div>
                 
                 <AlgoDescriptionContainer
                     algoName={algorithmInfo.name}
                     algoDescription={algorithmInfo.description}
-                    performance={algorithmInfo.performance.average}
+                    average={algorithmInfo.performance.average}
+                    best={algorithmInfo.performance.best}
+                    worst={algorithmInfo.performance.worst}
                 />
             </div>
         </div>
