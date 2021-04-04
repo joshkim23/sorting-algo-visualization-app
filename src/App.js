@@ -12,7 +12,7 @@ import SortingStepControls from './components/SortingStepControls.js';
 // Algorithms
 import {bubbleSortInfo, BubbleSort} from './Algorithms/bubbleSort.ts';
 import {selectionSortInfo, SelectionSort} from './Algorithms/selectionSort.ts';
-import {insertionSortInfo} from './Algorithms/insertionSort.ts';
+import {insertionSortInfo, InsertionSort} from './Algorithms/insertionSort.ts';
 import {quickSortInfo} from './Algorithms/quickSort.js';
 import {mergeSortInfo} from './Algorithms/mergeSort.js';
 import {heapSortInfo} from './Algorithms/heapSort.js';
@@ -36,7 +36,8 @@ const ALGOINFO = [
 
 const ALGORITHMS = [
     BubbleSort,
-    SelectionSort
+    SelectionSort,
+    InsertionSort
 ]
 
 const ALGONAMES = ALGOINFO.map(algo => algo.name);
@@ -170,10 +171,8 @@ const App = () => {
     function handleAlgorithmSelection(index) {
         console.log(index);
         setAlgorithmInfo(ALGOINFO[index]);
-        // setData(generateRandomUniqueUnorderedList(parseInt(dataSize))); // make new state for completed - only do on completed
-        if (ALGOINFO[index].name === 'Selection Sort' && !algorithmInfo.index) {
-            getSpecificAlgorithmTracker(index, sortingData? sortingData.array : data); // for some reason, without this it will send the sorted list - so when you click the same alogirthm twice it solves it automatically. needs investigation but this fixes it
-        }
+        getSpecificAlgorithmTracker(index, sortingData? sortingData.array : data); // for some reason, without this it will send the sorted list - so when you click the same alogirthm twice it solves it automatically. needs investigation but this fixes it
+
     }
 
     function handleListSizeSelection(index) {
