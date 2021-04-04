@@ -203,12 +203,11 @@ const App = () => {
     // The steps for an algorithm are stored in a tracker object which has an array of steps that are iterated to display the algorithm visually
     // need to pass the new unique array to this function to get a tracker of the updated list since JS is asynchornous - it doesnt grab the setData() value from the functions before it so it calculates the tracker for the list before the size was changd/shuffle button was clicked
     function getSpecificAlgorithmTracker(index, duplicateListBecauseJsIsAsynchronous) {
-        console.log('list sent to the get tracker function: ', duplicateListBecauseJsIsAsynchronous);
         let tracker;
         
-        if (algorithmInfo.index === null) { // first time selecting an algorithm 
+        if (algorithmInfo.index === null || index !== algorithmInfo.index) { // either first time selecting an algorithm or selecting a new one
             tracker = ALGORITHMS[index](duplicateListBecauseJsIsAsynchronous); 
-        } else { // selecting a new algorithm
+        } else { // in the case that the same algorithhm is selected
             tracker = ALGORITHMS[algorithmInfo.index](duplicateListBecauseJsIsAsynchronous); 
         }
 

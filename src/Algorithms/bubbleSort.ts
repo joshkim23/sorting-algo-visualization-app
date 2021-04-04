@@ -2,6 +2,7 @@ import { swap, createNewTracker, addStepToTracker } from '../helperFunctions';
 import { Tracker } from '../IterationTrackerInterface';
 
 export const BubbleSort = (list: Array<number>):Tracker => {
+    console.log('list sent to bubble sort', list);
     const initialList:Array<number> = [...list]; // need to make deep copy of the list before it sorts or else every step of the tracker will have the same array - the final sorted array, because they're all pointing to the same object! 
     let tracker:Tracker = createNewTracker(initialList);
     let sortedIndices:Array<number> = [];
