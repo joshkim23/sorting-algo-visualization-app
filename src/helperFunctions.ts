@@ -19,7 +19,7 @@ export function generateRandomUniqueUnorderedList(size:number):Array<number> {
             list.push(newValue);
         }
     }
-    console.log('generated new unordered list: ', list);
+    console.log('NEW randomized list generated: ', list);
     return list;
 }
 
@@ -37,7 +37,6 @@ export function createNewTracker(list:Array<number>):Tracker {
 }
 
 export function addStepToTracker(tracker:Tracker, listInstant:Array<number>, comparing:Array<number>, sorted:Array<number>, swapped:Array<number>, step:string) {
-    // console.log(step);
     const newStep:TrackerStep = {
         array: listInstant,
         sortedIndices: sorted,
