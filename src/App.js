@@ -26,6 +26,7 @@ import lightBlue from '@material-ui/core/colors/lightBlue';
 // Utility
 import {generateRandomUniqueUnorderedList} from './helperFunctions.ts'; // still works!
 
+// Application CONSTANTS
 const ALGOINFO = [
     bubbleSortInfo,
     selectionSortInfo,
@@ -40,6 +41,10 @@ const ALGORITHMS = [
     SelectionSort,
     InsertionSort
 ]
+
+const ALGONAMES = ALGOINFO.map(algo => algo.name);
+const DATASIZES = ['5', '10', '25', '50', '100'];
+const SPEEDS = ['0.25', '0.5', '1.0', '1.5', '2.0'];
 
 const COLORKEYS = [{
         key: 'Unsorted', 
@@ -56,11 +61,6 @@ const COLORKEYS = [{
     }
 ];
 
-const ALGONAMES = ALGOINFO.map(algo => algo.name);
-
-const DATASIZES = ['5', '10', '25', '50', '100'];
-
-// const SPEEDS = ['0.25x', '0.5x', '1.0x', '1.5x', '2.0x'];
 
 // Controls the program, grabs the algorithm and data size that are selected, runs/stops the algorithm, sends data points to child component, renders relevant data 
 const App = () => {
@@ -125,6 +125,7 @@ const App = () => {
         swapped: []
     }); // the data that's initially a deep copy of data then iterates through tracker.steps - this is what's sent to the data sorting window
     const [sortedData, setSortedData] = useState(null); // sorted array stored as soon as sorting algo is selected ahead of time to check
+    const [sortSpeed, setSortSpeed] = useState(SPEEDS[2]);
 
     useEffect(() => {
         setDataSize('10');
@@ -167,10 +168,14 @@ const App = () => {
                 if (index === trackerStepSnippetFromIndex.length-1) {
                     setTrackerIndex(trackerIndex++);
                 }
-            }, 100 * index);
+            }, (150 * (1/sortSpeed)) * index);
         });
         
         setTrackerIndex(tracker.steps.length);
+    }
+
+    function speedSelected(index) {
+        setSortSpeed(SPEEDS[index]);
     }
 
 
@@ -269,6 +274,9 @@ const App = () => {
                         colorKeys={COLORKEYS}
                         trackerSize={tracker.steps.length}
                         trackerStep={trackerIndex}
+                        speed={sortSpeed}
+                        listOfSpeeds={SPEEDS}
+                        handleSpeedSelected={speedSelected}
                     />
                 </div>
                 
