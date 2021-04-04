@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     },
   });
 
-const AlgoDescriptionContainer = ({algoName, algoDescription, performance}) => {
+const AlgoDescriptionContainer = ({algoName, algoDescription, average, best, worst}) => {
     // const styles = {
     //     container: {
     //         display: 'grid',
@@ -43,18 +43,33 @@ const AlgoDescriptionContainer = ({algoName, algoDescription, performance}) => {
                 <br />
             </Typography>
             <br />
-            <Typography variant="h6" component="h4">
-                Average Performance
+            <Typography variant="h6" component="h4" >
+                Performance
                 <br />
             </Typography>
-            <Typography variant="body2" component="p">
-                {performance}
-            </Typography>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
+                <Typography variant="body2" component="p">
+                    Best
+                    <br />
+                    Average
+                    <br />
+                    Worst 
+                </Typography>
+
+                <Typography variant="body2" component="p" style={{fontStyle: 'italics'}}>
+                    {best}
+                    <br />
+                    {average}
+                    <br />
+                    {worst}
+                </Typography>
+            </div>
+            
         </CardContent>
 
-        <CardActions>
-            <Button size="small">Learn More</Button>
-        </CardActions>
+        {/* <CardActions>
+            <Button size="small" href="wikipedia.com">Learn More</Button>
+        </CardActions> */}
 
         </Card>
     )

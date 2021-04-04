@@ -19,7 +19,7 @@ const ColorKeyItem = ({color, colorKey}) => {
     }
     return (
         <div style={styles.layout}>
-            <Brightness1 color={"blue"} style={styles.orb} />
+            <Brightness1 style={styles.orb} />
             <Typography>
                 {colorKey}
             </Typography>

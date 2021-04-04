@@ -275,7 +275,9 @@ const App = () => {
                 <AlgoDescriptionContainer
                     algoName={algorithmInfo.name}
                     algoDescription={algorithmInfo.description}
-                    performance={algorithmInfo.performance.average}
+                    average={algorithmInfo.performance.average}
+                    best={algorithmInfo.performance.best}
+                    worst={algorithmInfo.performance.worst}
                 />
             </div>
         </div>

@@ -3,9 +3,6 @@ import ColorKeyItem from './ColorKeyItem.js';
 import Button from '@material-ui/core/Button';
 import SkipPrevious from '@material-ui/icons/SkipPrevious'
 import SkipNext from '@material-ui/icons/SkipNext';
-import Stop from '@material-ui/icons/Stop';
-import Brightness1 from '@material-ui/icons/Brightness1';
-import { Typography } from '@material-ui/core';
 
 const SortingStepControls = ({ handleNextButton, handlePrevButton, sortButton, colorKeys, trackerStep, trackerSize }) => {
     const styles = {
