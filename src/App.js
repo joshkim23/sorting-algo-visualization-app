@@ -21,6 +21,7 @@ import {heapSortInfo} from './Algorithms/heapSort.js';
 // import indigo from '@material-ui/core/colors/indigo';
 import green from '@material-ui/core/colors/green';
 import grey from '@material-ui/core/colors/grey';
+import lightBlue from '@material-ui/core/colors/lightBlue';
 
 // Utility
 import {generateRandomUniqueUnorderedList} from './helperFunctions.ts'; // still works!
@@ -39,6 +40,21 @@ const ALGORITHMS = [
     SelectionSort,
     InsertionSort
 ]
+
+const COLORKEYS = [{
+        key: 'Unsorted', 
+        color: `${lightBlue["600"]}`
+    }, {
+        key: 'Comparing',
+        color: 'yellow'
+    }, {
+        key: 'Swapped',
+        color: 'red'
+    }, {
+        key: 'Sorted',
+        color: `${green["600"]}`
+    }
+];
 
 const ALGONAMES = ALGOINFO.map(algo => algo.name);
 
@@ -61,13 +77,14 @@ const App = () => {
         layout: {
             display: 'grid',
             gridTemplateColumns: '5fr 2fr',
-            gridGap: '60px',
+            gridGap: '50px',
             height: '500px',
-            padding: '50px 30px 50px 30px',
+            padding: '0px 50px 50px 50px',
         },
         sortWindowAndControls: {
             display: 'grid',
             gridTemplateRows: '10fr 1fr',
+            maxHeight: '525px',
             width: '100%',
             borderRadius: '10px',
             padding: '15px',
@@ -146,10 +163,14 @@ const App = () => {
         trackerStepSnippetFromIndex.forEach((step, index) => {
             setTimeout(() => {
                 setSortingData(step);
-            }, 250 * index);
+                setTrackerIndex(trackerIndex++);
+                if (index === trackerStepSnippetFromIndex.length-1) {
+                    setTrackerIndex(trackerIndex++);
+                }
+            }, 100 * index);
         });
         
-        // setTrackerIndex(0);
+        setTrackerIndex(tracker.steps.length);
     }
 
 
@@ -245,6 +266,9 @@ const App = () => {
                         handleNextButton={handleNextStep}
                         handlePrevButton={handlePreviousStep}
                         sortButton={run}
+                        colorKeys={COLORKEYS}
+                        trackerSize={tracker.steps.length}
+                        trackerStep={trackerIndex}
                     />
                 </div>
                 
