@@ -13,8 +13,8 @@ import SortingStepControls from './components/SortingStepControls.js';
 import {bubbleSortInfo, BubbleSort} from './Algorithms/bubbleSort.ts';
 import {selectionSortInfo, SelectionSort} from './Algorithms/selectionSort.ts';
 import {insertionSortInfo, InsertionSort} from './Algorithms/insertionSort.ts';
-import {quickSortInfo} from './Algorithms/quickSort.js';
-import {mergeSortInfo} from './Algorithms/mergeSort.js';
+import {quickSortInfo, QuickSortMain} from './Algorithms/quickSort.js';
+import {mergeSortInfo, MergeSortMain} from './Algorithms/mergeSort.ts';
 import {heapSortInfo} from './Algorithms/heapSort.js';
 
 // Material ui
@@ -24,7 +24,7 @@ import grey from '@material-ui/core/colors/grey';
 import lightBlue from '@material-ui/core/colors/lightBlue';
 
 // Utility
-import {generateRandomUniqueUnorderedList} from './helperFunctions.ts'; // still works!
+import {generateRandomUniqueUnorderedList, createNewTracker} from './helperFunctions.ts'; // still works!
 
 // Application CONSTANTS
 const ALGOINFO = [
@@ -39,12 +39,14 @@ const ALGOINFO = [
 const ALGORITHMS = [
     BubbleSort,
     SelectionSort,
-    InsertionSort
+    InsertionSort,
+    QuickSortMain,
+    MergeSortMain
 ]
 
 const ALGONAMES = ALGOINFO.map(algo => algo.name);
 const DATASIZES = ['5', '10', '25', '50', '100'];
-const SPEEDS = ['0.25', '0.5', '1.0', '1.5', '2.0'];
+const SPEEDS = ['0.25', '0.5', '1.0', '2.0', '4.0'];
 
 const COLORKEYS = [{
         key: 'Unsorted', 
@@ -195,8 +197,8 @@ const App = () => {
     
     /* functions for algorithm selection, element size, shuffling */
     function handleAlgorithmSelection(index) {
-        console.log(index);
         setAlgorithmInfo(ALGOINFO[index]);
+
         getSpecificAlgorithmTracker(index, sortingData? sortingData.array : data); // for some reason, without this it will send the sorted list - so when you click the same alogirthm twice it solves it automatically. needs investigation but this fixes it
 
     }
@@ -229,6 +231,7 @@ const App = () => {
     // The steps for an algorithm are stored in a tracker object which has an array of steps that are iterated to display the algorithm visually
     // need to pass the new unique array to this function to get a tracker of the updated list since JS is asynchornous - it doesnt grab the setData() value from the functions before it so it calculates the tracker for the list before the size was changd/shuffle button was clicked
     function getSpecificAlgorithmTracker(index, duplicateListBecauseJsIsAsynchronous) {
+        console.log(index);
         let tracker;
         
         if (algorithmInfo.index === null || index !== algorithmInfo.index) { // either first time selecting an algorithm or selecting a new one
@@ -238,7 +241,7 @@ const App = () => {
         }
 
         setTracker(tracker);
-        console.log('NEW tracker generated: ',tracker);
+        console.log(`NEW Tracker generated using ${ALGOINFO[index].name}`,tracker);
 
         setSortedData(tracker.steps[tracker.steps.length-1].array);
         setSortingData(tracker.steps[0]);

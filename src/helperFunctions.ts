@@ -23,13 +23,22 @@ export function generateRandomUniqueUnorderedList(size:number):Array<number> {
     return list;
 }
 
+export function getSortedIndicesForRecursiveFunctions(length:number):Array<number> {
+    let sortedIndices:Array<number> = [];
+    for (let i=0; i<length; i++) {
+        sortedIndices.push(i);
+    }
+    return sortedIndices;
+}
+
 export function createNewTracker(list:Array<number>):Tracker {
     let tracker:Tracker = {
         steps: [{
             array: list,
             sortedIndices: [],
             comparing: [],
-            swapped: []
+            swapped: [],
+            stepDescription: 'added list to tracker'
         }]
     };
     
@@ -41,7 +50,8 @@ export function addStepToTracker(tracker:Tracker, listInstant:Array<number>, com
         array: listInstant,
         sortedIndices: sorted,
         comparing: comparing,
-        swapped: swapped
+        swapped: swapped,
+        stepDescription: step
     }
     tracker.steps.push(newStep);
 }

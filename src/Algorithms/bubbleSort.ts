@@ -3,15 +3,13 @@ import { Tracker } from '../IterationTrackerInterface';
 
 export const BubbleSort = (list: Array<number>):Tracker => {
     console.log('list sent to bubble sort', list);
-    const initialList:Array<number> = [...list]; // need to make deep copy of the list before it sorts or else every step of the tracker will have the same array - the final sorted array, because they're all pointing to the same object! 
-    let tracker:Tracker = createNewTracker(initialList);
+    let tracker:Tracker = createNewTracker([...list]);// need to send deep copy of the list before it sorts or else every step of the tracker will have the same array - the final sorted array, because they're all pointing to the same object! 
     let sortedIndices:Array<number> = [];
 
     for(let lastKnownSortedElementIndex = list.length-1; lastKnownSortedElementIndex>=1; lastKnownSortedElementIndex--) { // outer loop, need to run swapping algorithm up to last known sorted element -1; with this algorithm the elements are sorted right to left
-        let deepCopy1 = [...list];
         if(lastKnownSortedElementIndex< list.length-1) {
             sortedIndices.push(lastKnownSortedElementIndex+1);
-            addStepToTracker(tracker, deepCopy1, [], [...sortedIndices], [], 'last known sorted el is less than the end');
+            addStepToTracker(tracker, [...list], [], [...sortedIndices], [], 'last known sorted el is less than the end');
         }
         
 
@@ -20,9 +18,7 @@ export const BubbleSort = (list: Array<number>):Tracker => {
 
             if(list[i] > list[i+1]) { // if left value is greater than right value, SWAP them. If i
                 swap(list, i, i+1);
-                const deepCopyOfListAtInstant = [...list];
-
-                addStepToTracker(tracker, deepCopyOfListAtInstant, [], [...sortedIndices], [i, i+1], 'AFTEr swapping');
+                addStepToTracker(tracker, [...list], [], [...sortedIndices], [i, i+1], 'AFTEr swapping');
             }
         }
     }
