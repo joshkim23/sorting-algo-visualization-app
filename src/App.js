@@ -1,3 +1,4 @@
+// Core App Imports
 import React, {useState, useEffect} from 'react';
 
 // Custom Components
@@ -5,9 +6,6 @@ import Header from './components/Header.js';
 import DataSortingWindow from './components/DataSortingWindow.js';
 import AlgoDescriptionContainer from './components/AlgoDescriptionContainer.js';
 import SortingStepControls from './components/SortingStepControls.js';
-
-// Interface
-// import {Tracker} from './IterationTrackerInterface.ts';
 
 // Algorithms
 import {bubbleSortInfo, BubbleSort} from './Algorithms/bubbleSort.ts';
@@ -33,7 +31,7 @@ const ALGOINFO = [
     insertionSortInfo,
     quickSortInfo,
     mergeSortInfo,
-    heapSortInfo
+    // heapSortInfo
 ]
 
 const ALGORITHMS = [
@@ -72,10 +70,9 @@ const App = () => {
             position: 'fixed',
             width: '100%',
             height: '100%',
-            display: 'grid',
-            overflowY: 'scroll',
-            overflowX: 'scroll'
+            display: 'grid'
         }, 
+        // For DESKTOP and TABLET
         layout: {
             display: 'grid',
             gridTemplateColumns: '5fr 2fr',
@@ -86,16 +83,27 @@ const App = () => {
         sortWindowAndControls: {
             display: 'grid',
             gridTemplateRows: '10fr 1fr',
-            maxHeight: '525px',
+            height: '525px',
             width: '100%',
             borderRadius: '10px',
             padding: '15px',
             backgroundColor: `${grey["800"]}`,
             color: `${green["600"]}`,
         },
-        descriptionWindow: {
+        // for MOBILE
+        layoutMobile: {
             display: 'grid',
-            overflowY: 'scroll',
+            gridTemplateColumns: '1fr',
+            gridGap: '10px',
+            height: '100%',
+            padding: '30px 15px 15px 15px',
+            overflowY: 'scroll' // need this for mobile scrolling
+        },
+        sortWindowAndControlsMobile: {
+            display: 'grid',
+            gridTemplateRows: '8fr 1fr',
+            gridGap: '10px',
+            height: '480px',
             borderRadius: '10px',
             padding: '15px',
             backgroundColor: `${grey["800"]}`,
@@ -128,16 +136,20 @@ const App = () => {
     }); // the data that's initially a deep copy of data then iterates through tracker.steps - this is what's sent to the data sorting window
     const [sortedData, setSortedData] = useState(null); // sorted array stored as soon as sorting algo is selected ahead of time to check
     const [sortSpeed, setSortSpeed] = useState(SPEEDS[2]);
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
 
     useEffect(() => {
         setDataSize('10');
         setData(generateRandomUniqueUnorderedList(10));
         setSortingData(null);
+        setWindowSize();
     }, []);
 
     useEffect(() => {
         setBarWidth(getBarWidth(dataSize));
     }, [dataSize])
+
+    window.addEventListener('resize', () => setWindowSize(window.innerWidth));
 
     function getBarWidth() {
         switch(parseInt(dataSize)) {
@@ -160,8 +172,8 @@ const App = () => {
     function run() {
         const trackerStepSnippetFromIndex = tracker.steps.filter((step, index) => index >= trackerIndex )
 
-        console.log(trackerIndex);
-        console.log(trackerStepSnippetFromIndex);
+        // console.log(trackerIndex);
+        // console.log(trackerStepSnippetFromIndex);
 
         trackerStepSnippetFromIndex.forEach((step, index) => {
             setTimeout(() => {
@@ -204,7 +216,7 @@ const App = () => {
     }
 
     function handleListSizeSelection(index) {
-        console.log('Data size changed - data size: ', DATASIZES[index]);
+        // console.log('Data size changed - data size: ', DATASIZES[index]);
         setSortingData(null); // sorting data is only sent to child once the algorithm runs and we have the tracker
 
         setDataSize(DATASIZES[index]);
@@ -231,7 +243,7 @@ const App = () => {
     // The steps for an algorithm are stored in a tracker object which has an array of steps that are iterated to display the algorithm visually
     // need to pass the new unique array to this function to get a tracker of the updated list since JS is asynchornous - it doesnt grab the setData() value from the functions before it so it calculates the tracker for the list before the size was changd/shuffle button was clicked
     function getSpecificAlgorithmTracker(index, duplicateListBecauseJsIsAsynchronous) {
-        console.log(index);
+        // console.log(index);
         let tracker;
         
         if (algorithmInfo.index === null || index !== algorithmInfo.index) { // either first time selecting an algorithm or selecting a new one
@@ -241,7 +253,7 @@ const App = () => {
         }
 
         setTracker(tracker);
-        console.log(`NEW Tracker generated using ${ALGOINFO[index].name}`,tracker);
+        // console.log(`NEW Tracker generated using ${ALGOINFO[index].name}`,tracker);
 
         setSortedData(tracker.steps[tracker.steps.length-1].array);
         setSortingData(tracker.steps[0]);
@@ -260,8 +272,8 @@ const App = () => {
                 shuffleData={shuffleDataRequest}
             />
 
-            <div style={styles.layout}>
-                <div style={styles.sortWindowAndControls}>
+            <div className="layout" style={windowSize < 770 ? styles.layoutMobile : styles.layout}>
+                <div className="sort-window-and-controls" style={windowSize < 770 ? styles.sortWindowAndControlsMobile : styles.sortWindowAndControls}>
                     <DataSortingWindow 
                         data={sortingData? sortingData.array : data} 
                         comparing={sortingData? sortingData.comparing : null}

@@ -2,7 +2,7 @@ import { swap, createNewTracker, addStepToTracker } from '../helperFunctions';
 import { Tracker } from '../IterationTrackerInterface';
 
 export const SelectionSort = (list: Array<number>):Tracker => {
-    console.log('list sent to selection sort: ', list);
+    // console.log('list sent to selection sort: ', list);
     let tracker:Tracker = createNewTracker([...list]);
     let sortedIndices:Array<number> = [];
 
@@ -28,7 +28,7 @@ export const SelectionSort = (list: Array<number>):Tracker => {
 
     addStepToTracker(tracker, list, [], sortedIndices, [], 'FINISHED SORTING');
 
-    console.log('sorted list!', list);
+    // console.log('sorted list!', list);
     return tracker;
 }
 
