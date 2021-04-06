@@ -4,7 +4,6 @@ import { Tracker } from '../IterationTrackerInterface';
 export const InsertionSort = (list:Array<number>):Tracker => {
     console.log('list sent to insertion sort', list);
     let tracker:Tracker = createNewTracker([...list]);
-    let sortedIndices:Array<number> = [];
 
     for (let lastVirtuallySortedIndex = 1; lastVirtuallySortedIndex < list.length; lastVirtuallySortedIndex++) {
         let indexToInsert = lastVirtuallySortedIndex;

@@ -9,12 +9,13 @@ export const MergeSortMain = (list:Array<number>):Tracker => {
 
     addStepToTracker(tracker, list, [], getSortedIndicesArray(list.length), [], 'finished sorting');
 
+    console.log('sorted list!: ', list);
     return tracker;
 
 }
 
 // need to keep the tracker, original list, and the array of values being compared/swapped - how to grab indexes of the sublists? keep track of min and max index of the sub lists
-export const MergeSort = (list:Array<number>, tracker:Tracker, originalList:Array<number>, indexMin:number, indexMax:number) => {
+function MergeSort(list:Array<number>, tracker:Tracker, originalList:Array<number>, indexMin:number, indexMax:number) {
     if (list.length > 1) {
         let left:Array<number> = list.slice(0, list.length/2);
         let right:Array<number> = list.slice(list.length/2, list.length);
@@ -26,7 +27,7 @@ export const MergeSort = (list:Array<number>, tracker:Tracker, originalList:Arra
         addStepToTracker(tracker, [...originalList], comparedIndices, [], [], 'list passed to merge sort');
 
         // since left and right are sorted with the same original list instant passed, after the left side sorts, the right side has unsorted left side data even though the left side is sorted. 
-        // the right side doesnt wait for the right side to sort and then grab the sorted left half. How to get it to wait, and then grab the sorted result for the right sort?
+        // the right side doesnt wait for the right side to sort and then grab the sorted left half. How to get it to wait, and then grab the sorted result for the right sort? --> it DOES wait in the call stack. But the value you passed it originally was the copy at the instant, instead of the pointer which will point to the edited object after the left side calls. Need to send the pointer to the object to the recursive call for this to work.
         // You CANNOT send the copy of the instant to merge sort, you need to send the actual object because it is being edit on each call!!!! You pass in the instant only when you add to the tracker!
         MergeSort(left, tracker, originalList, indexMin, indexMin + left.length-1); // keep track of the index range for each subarray passed to merge sort so you know which indexes to overwrite.
         MergeSort(right, tracker, originalList, indexMin + left.length, indexMax);
