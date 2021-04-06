@@ -15,12 +15,11 @@ const SortingStepControls = ({ handleNextButton, handlePrevButton, sortButton, c
             
         },
         layout: {
-            padding: '15px',
             display: 'grid',
             gridTemplateColumns: '1fr',
             gridGap: '15px',
             alignItems: 'center',
-            justifySelf: 'center'
+            justifySelf: 'center',
         },
         buttons: {
             display: 'flex',
@@ -44,7 +43,6 @@ const SortingStepControls = ({ handleNextButton, handlePrevButton, sortButton, c
     function handleSpeedSelection(index) {
         handleClose();
         handleSpeedSelected(index);
-        console.log('speed selection index: ', index);
     }
 
 

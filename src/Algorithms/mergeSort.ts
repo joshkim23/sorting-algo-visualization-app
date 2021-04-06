@@ -9,7 +9,7 @@ export const MergeSortMain = (list:Array<number>):Tracker => {
 
     addStepToTracker(tracker, list, [], getSortedIndicesArray(list.length), [], 'finished sorting');
 
-    console.log('sorted list!: ', list);
+    // console.log('sorted list!: ', list);
     return tracker;
 
 }

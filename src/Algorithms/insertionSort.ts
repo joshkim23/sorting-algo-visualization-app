@@ -2,7 +2,7 @@ import { swap, createNewTracker, addStepToTracker, getSortedIndicesArray } from 
 import { Tracker } from '../IterationTrackerInterface';
 
 export const InsertionSort = (list:Array<number>):Tracker => {
-    console.log('list sent to insertion sort', list);
+    // console.log('list sent to insertion sort', list);
     let tracker:Tracker = createNewTracker([...list]);
 
     for (let lastVirtuallySortedIndex = 1; lastVirtuallySortedIndex < list.length; lastVirtuallySortedIndex++) {
@@ -22,7 +22,7 @@ export const InsertionSort = (list:Array<number>):Tracker => {
     }
 
     addStepToTracker(tracker, list, [], getSortedIndicesArray(list.length), [], 'finished sorting');
-    console.log('sorted list: ', list);
+    // console.log('sorted list: ', list);
 
     return tracker;
 }

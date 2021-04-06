@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import DataBar from './DataBar/DataBar.js';
 import green from '@material-ui/core/colors/green';
 
@@ -16,9 +16,12 @@ const DataSortingWindow = ({data, comparing, sorted, swapped, barWidth}) => {
             display: 'flex',
             flexDirection: 'row',
             width: '100%',
-            gridGap: '4px'
+            gridGap: '1%'
         }
     }
+
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
+    window.addEventListener('resize', () => setWindowSize(window.innerWidth));
 
     // checking the comparing, sorted, and swapped arrays from the dataSortingList - if the index value is present in any of these, return the corresponding color key
     function getBarColor(index) {
@@ -38,7 +41,7 @@ const DataSortingWindow = ({data, comparing, sorted, swapped, barWidth}) => {
             {data? data.map((value, index) => {
                 const colorKey = getBarColor(index);
                 return (
-                    <DataBar key={index} value={value} width={barWidth} color={colorKey} dataSize={data.length}/>
+                    <DataBar key={index} value={value} width={barWidth} color={colorKey} dataSize={data.length} windowSize={windowSize}/>
                 )
             }) : null}
         </div>
