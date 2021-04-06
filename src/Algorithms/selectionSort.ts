@@ -3,8 +3,7 @@ import { Tracker } from '../IterationTrackerInterface';
 
 export const SelectionSort = (list: Array<number>):Tracker => {
     console.log('list sent to selection sort: ', list);
-    const initialList:Array<number> = [...list];
-    let tracker:Tracker = createNewTracker(initialList);
+    let tracker:Tracker = createNewTracker([...list]);
     let sortedIndices:Array<number> = [];
 
     for (let lastKnownSortedIndex = -1; lastKnownSortedIndex < list.length; lastKnownSortedIndex++) {

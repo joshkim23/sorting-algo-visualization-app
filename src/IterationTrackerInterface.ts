@@ -3,6 +3,7 @@ export interface TrackerStep {
     sortedIndices: Array<number>
     comparing: Array<number>
     swapped: Array<number>
+    stepDescription: string
 }
 
 export interface Tracker {
