@@ -54,7 +54,6 @@ function partition(list:Array<number>, tracker:Tracker, sortedIndicesArray:Array
     }
     if (list[j] < pivot) {
         swap(list, j, pivotIndex);
-        console.log('list after swapping pivot with j: ', list);
     }
     return j;
 
@@ -64,7 +63,7 @@ function partition(list:Array<number>, tracker:Tracker, sortedIndicesArray:Array
 
 export const quickSortInfo = {
     name: 'Quick Sort',
-    description: 'Quick sort is a divide and conquer sorting algorithm - it breaks the problem into subproblems and solves the subproblems in order to solve to main problem. It is a recursive algorithm that runs on the basis of sorting elements around a pivot that can initially be either the first/last/median element of the array. At each call of the algorithm, the array is partitioned into sub arrays at a pivot point that is greater/equal to all the elements before it and less than/equal to all the elements after it, ie it is in the final sorted position. It continually partitions the array in this manner until the final sorted list is achieved. It is the most popular sorting algorithm that handles relatively small data sizes incredibly well',
+    description: 'Quick sort runs on the basis of sorting elements around a pivot that can be randomly selected, or at the beginning/end of the array. At each call of the algorithm, the array is partitioned in two by swapping all elements smaller than the pivot with elements larger than the pivot, then swapping the pivot with the largest element that is smaller than the pivot. This effectively places the pivot in its final sorted position since all the elements are smaller and all elements after are greater. This method is called recursively with the remaining subarrays until all elements are sorted. It is the most popular sorting algorithm that handles relatively small data sizes incredibly well. In this variation of quick sort, the first element is selected as the pivot and then two pointers iterate through the rest of the subarray, one from the left, one from the right. Both pointers iterate into one another until they reach a value that is unsorted  relative to the pivot, or the pointers cross. For the left pointer, it will stop when it reaches a value that is greater than the pivot, and the right pointer will stop when it reaches a value that is less than the pivot. Once the pointers stop the values will be swapped, and the pointers continue.',
     performance: {
         best: 'O(nlog n)',
         average: 'O(nlog n)',
