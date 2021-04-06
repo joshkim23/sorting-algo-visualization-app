@@ -1,4 +1,4 @@
-import { swap, createNewTracker, addStepToTracker } from '../helperFunctions';
+import { swap, createNewTracker, addStepToTracker, getSortedIndicesArray } from '../helperFunctions';
 import { Tracker } from '../IterationTrackerInterface';
 
 export const InsertionSort = (list:Array<number>):Tracker => {
@@ -22,12 +22,7 @@ export const InsertionSort = (list:Array<number>):Tracker => {
         }
     }
 
-    // so they only turn green after algorithm finishes
-    for (let i=0; i<list.length; i++) {
-        sortedIndices.push(i);
-    }
-
-    addStepToTracker(tracker, list, [], sortedIndices, [], 'finished sorting');
+    addStepToTracker(tracker, list, [], getSortedIndicesArray(list.length), [], 'finished sorting');
     console.log('sorted list: ', list);
 
     return tracker;

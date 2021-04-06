@@ -23,7 +23,8 @@ export function generateRandomUniqueUnorderedList(size:number):Array<number> {
     return list;
 }
 
-export function getSortedIndicesForRecursiveFunctions(length:number):Array<number> {
+// creates an array from indicies from 0 up to the specified length-1 for algorithms that don't sort everything until the end
+export function getSortedIndicesArray(length:number):Array<number> {
     let sortedIndices:Array<number> = [];
     for (let i=0; i<length; i++) {
         sortedIndices.push(i);
@@ -31,6 +32,7 @@ export function getSortedIndicesForRecursiveFunctions(length:number):Array<numbe
     return sortedIndices;
 }
 
+// creates a NEW tracker object where each index in the steps array is a step in the algorithm.
 export function createNewTracker(list:Array<number>):Tracker {
     let tracker:Tracker = {
         steps: [{
@@ -45,6 +47,7 @@ export function createNewTracker(list:Array<number>):Tracker {
     return tracker;
 }
 
+// this adds a step to the tracker object for each new step in a sorting algorithm. It is a snapshot in time that stores the data, compared indices, sorted indices, and swapped indices at each specific instant of time
 export function addStepToTracker(tracker:Tracker, listInstant:Array<number>, comparing:Array<number>, sorted:Array<number>, swapped:Array<number>, step:string) {
     const newStep:TrackerStep = {
         array: listInstant,

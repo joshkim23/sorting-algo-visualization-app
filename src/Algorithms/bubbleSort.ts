@@ -36,7 +36,7 @@ export const BubbleSort = (list: Array<number>):Tracker => {
 
 export const bubbleSortInfo = {
     name: 'Bubble Sort',
-    description: 'Bubble sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.The pass through the list is repeated until the list is sorted. The algorithm, which is a comparison sort, is named for the way smaller or larger elements "bubble" to the top of the list. Although the algorithm is simple, it is too slow and impractical for most problems',
+    description: 'Bubble sort is a simple sorting algorithm that compares adjacent elements and swaps them if they are in the wrong order. It sorts from right to left, with each pass of the algorithm grabbing the next-highest value in the list until the entire list is sorted. It is called bubble sort because of the way the algorithm makes the largest/smallest values bubble up to the end of the list depending on which orientation the user desires the list to be in (ascending/descending).',
     performance: {
         best: 'O(n)',
         average: 'O(n^2)',
