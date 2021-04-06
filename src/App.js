@@ -13,7 +13,7 @@ import SortingStepControls from './components/SortingStepControls.js';
 import {bubbleSortInfo, BubbleSort} from './Algorithms/bubbleSort.ts';
 import {selectionSortInfo, SelectionSort} from './Algorithms/selectionSort.ts';
 import {insertionSortInfo, InsertionSort} from './Algorithms/insertionSort.ts';
-import {quickSortInfo, QuickSortMain} from './Algorithms/quickSort.js';
+import {quickSortInfo, QuickSortMain} from './Algorithms/quickSort.ts';
 import {mergeSortInfo, MergeSortMain} from './Algorithms/mergeSort.ts';
 import {heapSortInfo} from './Algorithms/heapSort.js';
 
@@ -24,7 +24,7 @@ import grey from '@material-ui/core/colors/grey';
 import lightBlue from '@material-ui/core/colors/lightBlue';
 
 // Utility
-import {generateRandomUniqueUnorderedList, createNewTracker} from './helperFunctions.ts'; // still works!
+import {generateRandomUniqueUnorderedList} from './helperFunctions.ts'; // still works!
 
 // Application CONSTANTS
 const ALGOINFO = [
@@ -195,7 +195,7 @@ const App = () => {
         }
     }
     
-    /* functions for algorithm selection, element size, shuffling */
+    /* functions for algorithm selection, element size, shuffling, and execution */
     function handleAlgorithmSelection(index) {
         setAlgorithmInfo(ALGOINFO[index]);
 
