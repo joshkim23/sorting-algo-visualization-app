@@ -20,22 +20,46 @@ function QuickSort(list:Array<number>, tracker:Tracker, left:number, right:numbe
 }
 
 function partition(list:Array<number>, tracker:Tracker, start:number, end:number):number {
-    let pivot = list[end];
-    let i = start;
+    // let pivot = list[end];
+    // let leftPointer = start;
 
-    for (let j=start; j<end; j++) {
-        addStepToTracker(tracker, [...list], [i, j], [], [], 'comparing values to pivot');
-        if (list[j] < pivot) {
+    // for (let j=start; j<end; j++) {
+    //     // addStepToTracker(tracker, [...list], [leftPointer, j], [], [], 'comparing values to pivot');
+    //     if (list[j] < pivot) {
+    //         swap(list, leftPointer, j);
+    //         addStepToTracker(tracker, [...list], [], [], [leftPointer, j], 'swapped');
+
+    //         leftPointer++;
+    //     }
+    // }
+    // swap(list, end, leftPointer);
+    // addStepToTracker(tracker, [...list], [], [leftPointer], [end, leftPointer], 'swapped');
+    //     return leftPointer;
+
+    let pivot = list[start];
+    let i = start+1;
+    let j = end;
+    // console.log(' *********************** START/END PARTITION ******************')
+    // console.log('pivot: ', pivot);
+    while (i < j) {
+        while (list[i] < pivot) i++;
+        while (list[j] > pivot) j--;
+
+        console.log('i: ', i, 'j: ', j);
+        if (i<j) {
             swap(list, i, j);
-            addStepToTracker(tracker, [...list], [], [], [i, j], 'swapped');
-
-            i++;
+            console.log('indexes swapped, i: ', i, 'j: ', j);
+            console.log('values swapped: ', list[i], list[j]);
+            console.log('updated list: ', list);
         }
+        console.log('exit while loop, nothing to swap');
     }
-    swap(list, end, i);
-    addStepToTracker(tracker, [...list], [], [i], [end, i], 'swapped');
+    if (list[j] < pivot) {
+        swap(list, j, start);
+        console.log('list after swapping pivot with j: ', list);
+    }
+    return j;
 
-    return i;
 }
 
 
