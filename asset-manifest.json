@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/sorting-algorithm/visualizer/static/css/main.fd6022f6.chunk.css",
-    "main.js": "/sorting-algorithm/visualizer/static/js/main.0897a7d5.chunk.js",
-    "main.js.map": "/sorting-algorithm/visualizer/static/js/main.0897a7d5.chunk.js.map",
-    "runtime-main.js": "/sorting-algorithm/visualizer/static/js/runtime-main.23e92d41.js",
-    "runtime-main.js.map": "/sorting-algorithm/visualizer/static/js/runtime-main.23e92d41.js.map",
-    "static/js/2.d7375b9d.chunk.js": "/sorting-algorithm/visualizer/static/js/2.d7375b9d.chunk.js",
-    "static/js/2.d7375b9d.chunk.js.map": "/sorting-algorithm/visualizer/static/js/2.d7375b9d.chunk.js.map",
-    "index.html": "/sorting-algorithm/visualizer/index.html",
-    "static/css/main.fd6022f6.chunk.css.map": "/sorting-algorithm/visualizer/static/css/main.fd6022f6.chunk.css.map",
-    "static/js/2.d7375b9d.chunk.js.LICENSE.txt": "/sorting-algorithm/visualizer/static/js/2.d7375b9d.chunk.js.LICENSE.txt"
+    "main.css": "/sorting-algo-visualization-app/static/css/main.fd6022f6.chunk.css",
+    "main.js": "/sorting-algo-visualization-app/static/js/main.0897a7d5.chunk.js",
+    "main.js.map": "/sorting-algo-visualization-app/static/js/main.0897a7d5.chunk.js.map",
+    "runtime-main.js": "/sorting-algo-visualization-app/static/js/runtime-main.b3d4ea6d.js",
+    "runtime-main.js.map": "/sorting-algo-visualization-app/static/js/runtime-main.b3d4ea6d.js.map",
+    "static/js/2.d7375b9d.chunk.js": "/sorting-algo-visualization-app/static/js/2.d7375b9d.chunk.js",
+    "static/js/2.d7375b9d.chunk.js.map": "/sorting-algo-visualization-app/static/js/2.d7375b9d.chunk.js.map",
+    "index.html": "/sorting-algo-visualization-app/index.html",
+    "static/css/main.fd6022f6.chunk.css.map": "/sorting-algo-visualization-app/static/css/main.fd6022f6.chunk.css.map",
+    "static/js/2.d7375b9d.chunk.js.LICENSE.txt": "/sorting-algo-visualization-app/static/js/2.d7375b9d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.23e92d41.js",
+    "static/js/runtime-main.b3d4ea6d.js",
     "static/js/2.d7375b9d.chunk.js",
     "static/css/main.fd6022f6.chunk.css",
     "static/js/main.0897a7d5.chunk.js"
