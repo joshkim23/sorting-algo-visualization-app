@@ -274,7 +274,7 @@ const App = () => {
                         handleNextButton={handleNextStep}
                         handlePrevButton={handlePreviousStep}
                         sortButton={run}
-                        colorKeys={COLORKEYS}
+                        colorKeys={COLORKEYS} // set to algorithm specific color key! For quick and prob heap sort. 
                         trackerSize={tracker.steps.length}
                         trackerStep={trackerIndex}
                         speed={sortSpeed}

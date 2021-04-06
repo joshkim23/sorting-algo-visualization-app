@@ -58,3 +58,8 @@ export function addStepToTracker(tracker:Tracker, listInstant:Array<number>, com
     }
     tracker.steps.push(newStep);
 }
+
+// TO DO - add functionality for selecting and coloring the pivot element at each partition of quick sort. Currently it's in the comparing category. 
+// Need to update app.js to handle datasortingwindow.js to handle a pivot array, create a new interface for quicksorttrackerstep that includes different names maybe? 
+ 
+// export function quickSortAddStepToTracker(tracker:Tracker, listInstant:Array<number>, pivotIndex: Array<number>, )
